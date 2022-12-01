@@ -27,7 +27,7 @@ and ultimately, efficiency”.
 3. The report will be evaluated from 7 and bonus marks will be given to outstanding reports.
 4. A report must be prepared and include (introduction about your project, your R-code, results, comments on
 results, and problems you have faced and how you overcame it
-5. Softcopy of the report must be sent to probabilityfcds@gmail.com before the final discussions, moreover, a
+5. Softcopy of the report must be sent to <insert email here> before the final discussions, moreover, a
 hardcopy from report must be brought while the discussion.
 6. You must respond to all project questions (parts).
 7. The report must be written using 10 font size and Times New Roman style.
@@ -36,8 +36,7 @@ hardcopy from report must be brought while the discussion.
 10. The final discussion and deadline for the project will be on December 20, 2022.
 
 ## III. QUESTIONS
-- Download the necessary data via the [URL.]
-(https://drive.google.com/file/d/1vNNtMwlHdIyQTT5ty12aOOlapp-5vM37/view?usp=share_link)
+- Download the necessary data via the [URL.](https://drive.google.com/file/d/1vNNtMwlHdIyQTT5ty12aOOlapp-5vM37/view?usp=share_link)
 - Import the dataset (called "train.csv") into RStudio and store it in a variable called "titanic".
 
 Q1) Provide an accurate data summary (minimum, maximum, first quantile, third quantile, median, and mean)
@@ -53,7 +52,7 @@ value of `NA`); answer the following concerns.
     iii) Can you provide solutions to estimate this missing data?
     iv) Indicate whether or not it will affect our statistics?
 
-Q4) Remove these missing data using the following command >>> `titanic=na.omit(titanic)`
+Q4) Remove these missing data using the following command -> `titanic=na.omit(titanic)`
 
 Q5) Draw the histogram for the dataset's Age variable.
 
