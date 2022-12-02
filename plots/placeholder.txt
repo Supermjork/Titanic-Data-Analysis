@@ -1,0 +1,4 @@
+This file only exists to serve the purpose of making git
+acknowledge the existence of this directory/file ("./plots/")
+delete when creating the first batch of plots (i.e. populating
+the directory with files of its intended purpose)
