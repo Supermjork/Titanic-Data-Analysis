@@ -15,26 +15,38 @@ titanic <- read.csv("dataset/train.csv")
 # Answer to Q1, using summarize function
 # Prior to answering, it is more optimal to remove the NaN data fields
 # Unsure if one should do this prior to summarise function
-  # Cleaned dataset (no NANs)
+  # Cleaned dataset (no NANs, Will be working with this)
 titanic_clean = na.omit(titanic)
 
 # Trying to summarise multiple columns
+  # Putting labels, functions into vectors and list for encapsulation
+summarised_columns <- c("Age", "Fare")
+summary_functions <- list(min = min,
+                          max = max,
+                          q1 =~ quantile(., 0.25),
+                          q3 =~ quantile(., 0.75),
+                          mean = mean,
+                          sigma = sd)
+summary_matrix_row <- c("Minimum Value",
+                        "Maximum Value", 
+                        "First Quartile", 
+                        "Third Quartile", 
+                        "Mean Population",
+                        "Sigma Population")
+
   # Putting summarised data into variable
-titanic_summarise <- titanic_clean %>% summarise_at(c("Age", "Fare"),
-                                                    list(min = min,
-                                                         max = max,
-                                                         #q1 = quantile(0.25),  Error here, needs passed vector (Column in our case duh)
-                                                         mean = mean,
-                                                         sigma = sd),
+titanic_summarise <- titanic_clean %>% summarise_at(summarised_columns,
+                                                    summary_functions,
                                                     na.rm = TRUE)
 titanic_summarise
   
   # Printing summarised data in a neat manner instead of 1 continuous row
-matrix(titanic_summarise, nrow = 4, ncol = 2,
-       dimnames = list(c("min", "max", "mean", "sigma"), c("Age", "Fare")),
+matrix(titanic_summarise, nrow = length(summary_functions),
+       ncol = length(summarised_columns),
+       dimnames = list(summary_matrix_row, summarised_columns),
        byrow = TRUE)
 
-# Summarising each column individually
+# Alt method: Summarising each column individually
   # First summary regards Age
 titanic_clean %>% summarise(age_min = min(Age),
                             age_max = max(Age),
@@ -47,4 +59,10 @@ titanic_clean %>% summarise(age_min = min(Age),
 
   # Second summary regards Fare
 titanic_clean %>% summarize(fare_min = min(Fare),
-                            fare_max = max(Fare))
+                            fare_max = max(Fare),
+                            fare_q1 = quantile(Fare, 0.25),
+                            fare_q3 = quantile(Fare, 0.75),
+                            fare_med = median(Fare),
+                            fare_mu = mean(Fare),
+                            fare_sigma = sd(Fare),
+                            fare_iqr = IQR(Fare))
