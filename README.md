@@ -27,7 +27,7 @@ and ultimately, efficiency”.
 3. The report will be evaluated from 7 and bonus marks will be given to outstanding reports.
 4. A report must be prepared and include (introduction about your project, your R-code, results, comments on
 results, and problems you have faced and how you overcame it
-5. Softcopy of the report must be sent to <insert email here> before the final discussions, moreover, a
+5. Softcopy of the report must be sent (to email) before the final discussions, moreover, a
 hardcopy from report must be brought while the discussion.
 6. You must respond to all project questions (parts).
 7. The report must be written using 10 font size and Times New Roman style.
