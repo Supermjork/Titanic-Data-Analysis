@@ -13,13 +13,8 @@ library(ggplot2)
 titanic <- read.csv("dataset/train.csv")
 
 # Answer to Q1, using summarize function
-# Prior to answering, it is more optimal to remove the NaN data fields
-# Unsure if one should do this prior to summarise function
-  # Cleaned dataset (no NANs, Will be working with this)
-titanic_clean = na.omit(titanic)
-
-# Trying to summarise multiple columns
-  # Putting labels, functions into vectors and list for encapsulation
+  # Trying to summarise multiple columns
+    # Putting labels, functions into vectors and list for encapsulation
 summarised_columns <- c("Age", "Fare")
 summary_functions <- list(min = min,
                           max = max,
@@ -34,21 +29,21 @@ summary_matrix_row <- c("Minimum Value",
                         "Mean Population",
                         "Sigma Population")
 
-  # Putting summarised data into variable
-titanic_summarise <- titanic_clean %>% summarise_at(summarised_columns,
+    # Putting summarised data into variable
+titanic_summarise <- titanic %>% summarise_at(summarised_columns,
                                                     summary_functions,
                                                     na.rm = TRUE)
 titanic_summarise
   
-  # Printing summarised data in a neat manner instead of 1 continuous row
+    # Printing summarised data in a neat manner instead of 1 continuous row
 matrix(titanic_summarise, nrow = length(summary_functions),
        ncol = length(summarised_columns),
        dimnames = list(summary_matrix_row, summarised_columns),
        byrow = TRUE)
 
-# Alt method: Summarising each column individually
-  # First summary regards Age
-titanic_clean %>% summarise(age_min = min(Age),
+  # Alt method: Summarising each column individually
+    # First summary regards Age
+titanic %>% summarise(age_min = min(Age),
                             age_max = max(Age),
                             age_q1 = quantile(Age, 0.25),
                             age_q3 = quantile(Age, 0.75),
@@ -58,7 +53,7 @@ titanic_clean %>% summarise(age_min = min(Age),
                             age_iqr = IQR(Age))
 
   # Second summary regards Fare
-titanic_clean %>% summarize(fare_min = min(Fare),
+titanic %>% summarize(fare_min = min(Fare),
                             fare_max = max(Fare),
                             fare_q1 = quantile(Fare, 0.25),
                             fare_q3 = quantile(Fare, 0.75),
@@ -66,3 +61,6 @@ titanic_clean %>% summarize(fare_min = min(Fare),
                             fare_mu = mean(Fare),
                             fare_sigma = sd(Fare),
                             fare_iqr = IQR(Fare))
+
+# Cleaned dataset (no NANs, Will be working with this)
+titanic_clean = na.omit(titanic)
