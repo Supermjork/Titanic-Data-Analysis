@@ -43,5 +43,5 @@ matrix(titanic_summarise, nrow = length(summary_functions),
        dimnames = list(summary_matrix_row, summarised_columns),
        byrow = TRUE)
 
-# Cleaned dataset (no NANs, Will be working with this)
+# Cleaned dataset (no NANs, Will be working with this.)
 titanic_clean = na.omit(titanic)
