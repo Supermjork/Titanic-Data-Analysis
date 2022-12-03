@@ -35,7 +35,7 @@ summary_matrix_row <- c("Minimum Value",
 
     # Putting summarised data into variable
 titanic_summarise <- titanic %>% summarise_at(summarised_columns, summary_functions)
-titanic_summarise
+#titanic_summarise
   
     # Printing summarised data in a neat manner instead of 1 continuous row
 matrix(titanic_summarise, nrow = length(summary_functions),
@@ -45,24 +45,24 @@ matrix(titanic_summarise, nrow = length(summary_functions),
 
   # Alt method: Summarising each column individually
     # First summary regards Age
-titanic %>% summarise(age_min = min(Age, na.rm = TRUE),
-                            age_max = max(Age, na.rm = TRUE),
-                            age_q1 = quantile(Age, 0.25, na.rm = TRUE),
-                            age_q3 = quantile(Age, 0.75, na.rm = TRUE),
-                            age_med = median(Age, na.rm = TRUE),
-                            age_mu = mean(Age, na.rm = TRUE),
-                            age_sigma = sd(Age, na.rm = TRUE),
-                            age_iqr = IQR(Age, na.rm = TRUE))
-
-  # Second summary regards Fare
-titanic %>% summarize(fare_min = min(Fare, na.rm = TRUE),
-                            fare_max = max(Fare, na.rm = TRUE),
-                            fare_q1 = quantile(Fare, 0.25, na.rm = TRUE),
-                            fare_q3 = quantile(Fare, 0.75, na.rm = TRUE),
-                            fare_med = median(Fare, na.rm = TRUE),
-                            fare_mu = mean(Fare, na.rm = TRUE),
-                            fare_sigma = sd(Fare, na.rm = TRUE),
-                            fare_iqr = IQR(Fare, na.rm = TRUE))
+# titanic %>% summarise(age_min = min(Age, na.rm = TRUE),
+#                             age_max = max(Age, na.rm = TRUE),
+#                             age_q1 = quantile(Age, 0.25, na.rm = TRUE),
+#                             age_q3 = quantile(Age, 0.75, na.rm = TRUE),
+#                             age_med = median(Age, na.rm = TRUE),
+#                             age_mu = mean(Age, na.rm = TRUE),
+#                             age_sigma = sd(Age, na.rm = TRUE),
+#                             age_iqr = IQR(Age, na.rm = TRUE))
+#
+#   # Second summary regards Fare
+# titanic %>% summarize(fare_min = min(Fare, na.rm = TRUE),
+#                             fare_max = max(Fare, na.rm = TRUE),
+#                             fare_q1 = quantile(Fare, 0.25, na.rm = TRUE),
+#                             fare_q3 = quantile(Fare, 0.75, na.rm = TRUE),
+#                             fare_med = median(Fare, na.rm = TRUE),
+#                             fare_mu = mean(Fare, na.rm = TRUE),
+#                             fare_sigma = sd(Fare, na.rm = TRUE),
+#                             fare_iqr = IQR(Fare, na.rm = TRUE))
 
 # Cleaned dataset (no NANs, Will be working with this)
 titanic_clean = na.omit(titanic)
