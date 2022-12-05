@@ -13,6 +13,7 @@
 
 # Output files from R CMD build
 /*.tar.gz
+/*.pdf
 
 # Output files from R CMD check
 /*.Rcheck/
@@ -37,3 +38,6 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# R project file
+/*.Rproj

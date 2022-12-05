@@ -52,11 +52,14 @@ hist(titanic$Age)
 # Plot representing the amount of passengers and shows their gender
 # Shows absolute mean AND Trying to show mean for either genders
 
-# Setting position to doge to have the lines beside
+# Setting position to dodge to have the lines beside
 # each other instead of overlapping (tinker around binwidth)
 # Used it over "stack" to show true count of people at age
 # Stack just sums both up to a accumulated count
-age_mean_gender <- aggregate(titanic_clean$Age, list(titanic_clean$Sex), mean)
+age_mean_gender <- titanic_clean %>%
+  group_by(Sex) %>%
+  summarise_at(vars(Age))
+  list(mean = mean)
 
 # Setting the bars' position relative to each other
 hist_pos <- "dodge"
@@ -76,8 +79,8 @@ age_fancyplot <- titanic_clean %>% ggplot(aes(x = Age,
 
 # Shows the mean of ages by gender (Males' mean age, Females' mean age)
 gender_mean_age <- geom_vline(data = age_mean_gender,
-                                 aes(xintercept = x,
-                                     colour = Group.1),
+                                 aes(xintercept = mean,
+                                     colour = Sex),
                                  linetype = "dashed",
                                  linewidth = 1)
 
