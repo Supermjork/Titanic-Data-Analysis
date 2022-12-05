@@ -58,8 +58,8 @@ hist(titanic$Age)
 # Stack just sums both up to a accumulated count
 age_mean_gender <- titanic_clean %>%
   group_by(Sex) %>%
-  summarise_at(vars(Age))
-  list(mean = mean)
+  summarise_at(vars(Age),
+  list(mean = mean))
 
 # Setting the bars' position relative to each other
 hist_pos <- "dodge"
