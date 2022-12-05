@@ -7,8 +7,7 @@ library(statsr)
 library(dplyr)
 library(ggplot2)
 # Yes we can ignore this library
-#library(tidyverse)
-
+# I removed the library
 # Loading the csv with passenger data into "titanic" data frame
   # Main dataset
 titanic <- read.csv("dataset/train.csv")
@@ -57,52 +56,53 @@ hist(titanic$Age)
 # each other instead of overlapping (tinker around binwidth)
 # Used it over "stack" to show true count of people at age
 # Stack just sums both up to a accumulated count
-age_mean_bySex <- aggregate(titanic_clean$Age, list(titanic_clean$Sex), mean)
+age_mean_gender <- aggregate(titanic_clean$Age, list(titanic_clean$Sex), mean)
 
 # Setting the bars' position relative to each other
-age_pop_pos <- "dodge"
+hist_pos <- "dodge"
 
 # Setting the legend's position (Only for when working with both genders)
 # i.e. the fancy plot
-age_pop_legend_pos <- "right"
+leg_pos <- "right"
 
 # The basic (allegedly) plot with ages shown by gender and legend
-age_pop_fancyplot <- titanic_clean %>% ggplot(aes(x = Age,
+age_fancyplot <- titanic_clean %>% ggplot(aes(x = Age,
                                              color = Sex,
                                              fill = Sex)) +
                                        geom_histogram(binwidth = 1,
                                                       alpha = 0.25,
-                                                      position = age_pop_pos) +
-                                       theme(legend.position = age_pop_legend_pos)
+                                                      position = hist_pos) +
+                                       theme(legend.position = leg_pos)
 
 # Shows the mean of ages by gender (Males' mean age, Females' mean age)
-age_show_meanBySex <- geom_vline(data = age_mean_bySex,
+gender_mean_age <- geom_vline(data = age_mean_gender,
                                  aes(xintercept = x,
                                      colour = Group.1),
                                  linetype = "dashed",
                                  linewidth = 1)
 
-# Shows the absolute average of ages in the population (Mean Age of both genders)
-age_show_absMean <- geom_vline(aes(xintercept = mean(Age),
+# Shows the absolute average of ages in the population
+#(Mean Age of both genders)
+gender_absmean <- geom_vline(aes(xintercept = mean(Age),
                                    colour = Sex),
                                colour = "red",
                                linetype = "dashed",
                                linewidth = 1)
 
 # Facets the graph into 2 grids for each gender
-age_facet_plots <- facet_grid(Sex ~ .)
+age_plot_grid <- facet_grid(Sex ~ .)
 
 # Write which layers to add onto the plot
-age_pop_fancyplot + list(age_show_meanBySex, age_facet_plots)
+age_fancyplot + list(gender_mean_age, age_plot_grid)
 
 # Boring basic histogram
 # Straight up plot for age distribution
 # Also shows absolute mean
-age_pop_plot <- titanic_clean %>% ggplot(aes(x = Age)) +
+age_plot <- titanic_clean %>% ggplot(aes(x = Age)) +
                                   geom_histogram(binwidth = 1) +
                                   geom_vline(aes(xintercept = mean(Age)),
                                                  colour = "red",
                                                  linetype = "dashed",
                                                  linewidth = 1)
 
-age_pop_plot
+age_plot
