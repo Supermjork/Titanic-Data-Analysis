@@ -117,40 +117,36 @@ summarise(pt_estimate_sample, x_bar = mean(Age), s = sd(Age))
 
 # Questions 9 through 15 (Q12 is theoretical, please write in pdf)
 # Fancy function to summarise the Ages according to samples and reps
-sample_mean <- function(sample_df, sample_size, sample_reps, col_name) {
-  new_col <- paste(col_name, "bar", sep = "_")
-  sample_df %>%
-  rep_sample_n(size = sample_size, reps = sample_reps, replace = TRUE) %>% 
-  summarise(new_col = mean(sample_df[, col_name]))
+sample_mean <- function(sample_passed, sample_size, sample_reps, col_name) {
+  sample_passed %>% 
+    rep_sample_n(size = sample_size, reps = sample_reps, replace = TRUE) %>% 
+    summarise(x_bar = mean(sample_passed$col_name))
+  # If you're lazy about it, write Age in mean(), but I want to generic
+  # I swear it worked but i broke it and can't remember how it was written
 }
 
 # Another fancy function to plot the samples (Has to be used with above fn)
-sample_plot <- function(sample_df, col_name) {
-  sample_df %>% ggplot(aes(x = sample_df[, col_name])) +
+sample_plot <- function(sample_df) {
+  sample_df %>% ggplot(aes(x = x_bar)) +
                 geom_histogram(binwidth = 0.25) +
-                geom_vline(aes(xintercept = mean(sample_df[, col_name])),
+                geom_vline(aes(xintercept = mean(x_bar)),
                            colour = "red",
                            linetype = "dashed",
                            linewidth = 1) +
-                geom_text(x = mean(sample_df[, col_name]),
+                geom_text(x = mean(sample_df$x_bar),
                           y = Inf,
                           vjust = 1,
                           aes(label = paste("Estimated mean = ",
-                                            mean(sample_df[, col_name]))))
+                                            mean(x_bar))))
 }
 
   # Q9: 50 samples of size 50
-sample_means50 <- sample_mean(titanic_clean, 50, 50, "Age")
+sample_means50 <- titanic_clean %>% sample_mean(50, 50, "Age")
 
-sample_means50 %>% sample_plot("Age_bar")
-                   
+sample_means50 %>% sample_plot()
+
+titanic_clean %>% rep_sample_n(size = 50, reps = 50, T)
 
   # Q10: 100 samples of size 50
-sample_means100 <- age_sample_mean(50, 100)
-
-sample_means100 %>% age_sample_plot()
 
   # Q11: 1000 samples of size 50
-sample_means1000 <- age_sample_mean(50, 1000)
-
-sample_means1000 %>% age_sample_plot()
