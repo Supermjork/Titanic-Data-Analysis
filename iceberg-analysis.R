@@ -35,7 +35,7 @@ summary_matrix_row <- c("Minimum Value",
 
     # Putting summarised data into variable
 titanic_summarise <- titanic %>% summarise_at(summarised_columns,
-  summary_functions)
+                                              summary_functions)
 #titanic_summarise
     # Printing summarised data in a neat manner instead of 1 continuous row
 matrix(titanic_summarise, nrow = length(summary_functions),
@@ -47,7 +47,7 @@ matrix(titanic_summarise, nrow = length(summary_functions),
 titanic_clean <- na.omit(titanic)
 
 # Your histogram be boring (Also doubt the frequency numbers)
-hist(titanic$Age)
+hist(titanic$Age, xlab = "Ages", main = paste("Histogram of Age Frequency"))
 
 # Plot representing the amount of passengers and shows their gender
 # Shows absolute mean AND Trying to show mean for either genders
@@ -57,9 +57,8 @@ hist(titanic$Age)
 # Used it over "stack" to show true count of people at age
 # Stack just sums both up to a accumulated count
 age_mean_gender <- titanic_clean %>%
-  group_by(Sex) %>%
-  summarise_at(vars(Age),
-  list(mean = mean))
+                   group_by(Sex) %>%
+                   summarise_at(vars(Age), list(mean = mean))
 
 # Setting the bars' position relative to each other
 hist_pos <- "dodge"
@@ -70,27 +69,27 @@ leg_pos <- "right"
 
 # The basic (allegedly) plot with ages shown by gender and legend
 age_fancyplot <- titanic_clean %>% ggplot(aes(x = Age,
-                                             color = Sex,
-                                             fill = Sex)) +
-                                       geom_histogram(binwidth = 1,
-                                                      alpha = 0.25,
-                                                      position = hist_pos) +
-                                       theme(legend.position = leg_pos)
+                                              color = Sex,
+                                              fill = Sex)) +
+                                   geom_histogram(binwidth = 1,
+                                                  alpha = 0.25,
+                                                  position = hist_pos) +
+                                   theme(legend.position = leg_pos)
 
 # Shows the mean of ages by gender (Males' mean age, Females' mean age)
 gender_mean_age <- geom_vline(data = age_mean_gender,
-                                 aes(xintercept = mean,
-                                     colour = Sex),
-                                 linetype = "dashed",
-                                 linewidth = 1)
+                              aes(xintercept = mean,
+                                  colour = Sex),
+                              linetype = "dashed",
+                              linewidth = 1)
 
 # Shows the absolute average of ages in the population
-#(Mean Age of both genders)
+# (Mean Age of both genders)
 gender_absmean <- geom_vline(aes(xintercept = mean(Age),
-                                   colour = Sex),
-                               colour = "red",
-                               linetype = "dashed",
-                               linewidth = 1)
+                                 colour = Sex),
+                             colour = "red",
+                             linetype = "dashed",
+                             linewidth = 1)
 
 # Facets the graph into 2 grids for each gender
 age_plot_grid <- facet_grid(Sex ~ .)
@@ -102,10 +101,56 @@ age_fancyplot + list(gender_mean_age, age_plot_grid)
 # Straight up plot for age distribution
 # Also shows absolute mean
 age_plot <- titanic_clean %>% ggplot(aes(x = Age)) +
-                                  geom_histogram(binwidth = 1) +
-                                  geom_vline(aes(xintercept = mean(Age)),
-                                                 colour = "red",
-                                                 linetype = "dashed",
-                                                 linewidth = 1)
+                              geom_histogram(binwidth = 1) +
+                              geom_vline(aes(xintercept = mean(Age)),
+                                         colour = "red",
+                                         linetype = "dashed",
+                                         linewidth = 1)
 
 age_plot
+
+# Question 8, to take a random pop sample of age and point estimate the mean
+# and standard deviation
+pt_estimate_sample <- titanic_clean %>% sample_n(size = 50, replace = TRUE)
+
+summarise(pt_estimate_sample, x_bar = mean(Age), s = sd(Age))
+
+# Questions 9 through 15 (Q12 is theoretical, please write in pdf)
+# Fancy function to summarise the Ages according to samples and reps
+sample_mean <- function(sample_df, sample_size, sample_reps, col_name) {
+  new_col <- paste(col_name, "bar", sep = "_")
+  sample_df %>%
+  rep_sample_n(size = sample_size, reps = sample_reps, replace = TRUE) %>% 
+  summarise(new_col = mean(sample_df[, col_name]))
+}
+
+# Another fancy function to plot the samples (Has to be used with above fn)
+sample_plot <- function(sample_df, col_name) {
+  sample_df %>% ggplot(aes(x = sample_df[, col_name])) +
+                geom_histogram(binwidth = 0.25) +
+                geom_vline(aes(xintercept = mean(sample_df[, col_name])),
+                           colour = "red",
+                           linetype = "dashed",
+                           linewidth = 1) +
+                geom_text(x = mean(sample_df[, col_name]),
+                          y = Inf,
+                          vjust = 1,
+                          aes(label = paste("Estimated mean = ",
+                                            mean(sample_df[, col_name]))))
+}
+
+  # Q9: 50 samples of size 50
+sample_means50 <- sample_mean(titanic_clean, 50, 50, "Age")
+
+sample_means50 %>% sample_plot("Age_bar")
+                   
+
+  # Q10: 100 samples of size 50
+sample_means100 <- age_sample_mean(50, 100)
+
+sample_means100 %>% age_sample_plot()
+
+  # Q11: 1000 samples of size 50
+sample_means1000 <- age_sample_mean(50, 1000)
+
+sample_means1000 %>% age_sample_plot()
