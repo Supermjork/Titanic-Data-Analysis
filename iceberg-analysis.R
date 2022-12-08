@@ -8,6 +8,8 @@ library(dplyr)
 library(ggplot2)
 # Yes we can ignore this library
 # I removed the library
+library(tidyverse)
+#I put it back
 # Loading the csv with passenger data into "titanic" data frame
   # Main dataset
 titanic <- read.csv("dataset/train.csv")
@@ -118,9 +120,9 @@ summarise(pt_estimate_sample, x_bar = mean(Age), s = sd(Age))
 # Questions 9 through 15 (Q12 is theoretical, please write in pdf)
 # Fancy function to summarise the Ages according to samples and reps
 sample_mean <- function(sample_passed, sample_size, sample_reps, col_name) {
-  sample_passed %>% 
-    rep_sample_n(size = sample_size, reps = sample_reps, replace = TRUE) %>% 
-    summarise(x_bar = mean(sample_passed$col_name))
+  sample_passed %>%
+    rep_sample_n(size = sample_size, reps = sample_reps, replace = TRUE) %>%
+    summarise(x_bar = mean({{col_name}}))
   # If you're lazy about it, write Age in mean(), but I want to generic
   # I swear it worked but i broke it and can't remember how it was written
 }
@@ -141,11 +143,13 @@ sample_plot <- function(sample_df) {
 }
 
   # Q9: 50 samples of size 50
-sample_means50 <- titanic_clean %>% sample_mean(50, 50, "Age")
+sample_means50 <- titanic_clean %>% sample_mean(sample_size = 50
+                                                , sample_reps = 50
+                                                , col_name = Age)
 
 sample_means50 %>% sample_plot()
 
-titanic_clean %>% rep_sample_n(size = 50, reps = 50, T)
+# titanic_clean %>% rep_sample_n(size = 50, reps = 50, TRUE)
 
   # Q10: 100 samples of size 50
 
