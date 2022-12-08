@@ -124,39 +124,58 @@ sample_mean <- function(sample_passed, sample_size, sample_reps, col_name) {
     rep_sample_n(size = sample_size, reps = sample_reps, replace = TRUE) %>%
     summarise(x_bar = mean({{col_name}}))
   # If you're lazy about it, write Age in mean(), but I want to generic
-  # I swear it worked but i broke it and can't remember how it was written
+  # I swear it worked but I broke it and can't remember how it was written
 }
 
 # Another fancy function to plot the samples (Has to be used with above fn)
-sample_plot_mean <- function(sample_df, passed_size, passed_reps, passed_col_name) {
-  sample_df %>% sample_mean(sample_size = passed_size,
-                            sample_reps = passed_reps,
-                            col_name = passed_col_name)
-                ggplot(aes(x = x_bar)) +
-                geom_histogram(binwidth = 0.25) +
-                geom_vline(aes(xintercept = mean(x_bar)),
-                           colour = "red",
-                           linetype = "dashed",
-                           linewidth = 1) +
-                geom_text(x = mean(sample_df$x_bar),
-                          y = Inf,
-                          vjust = 1,
-                          aes(label = paste("Estimated mean = ",
-                                            mean(x_bar))))
+sample_plot <- function(passed_sampled_df, passed_col_name) {
+  passed_sampled_df %>% ggplot(aes(x = {{passed_col_name}})) +
+                        geom_histogram(binwidth = 0.25) +
+                        geom_vline(aes(xintercept = mean({{passed_col_name}})),
+                                   colour = "red",
+                                   linetype = "dashed",
+                                   linewidth = 1) +
+                        geom_text(x = mean({{passed_col_name}}),
+                                  y = Inf,
+                                  vjust = 1,
+                                  aes(label = paste("Estimated mean = ",
+                                                    mean({{passed_col_name}}))))
+}
+
+# Za chonky function to sample and plot said sample's means, useless
+sample_plot_mean <- function(sample_df,
+                             passed_size,
+                             passed_reps,
+                             passed_col_name) {
+  sample_in_fn <- sample_df %>% sample_mean(sample_size = passed_size,
+                                            sample_reps = passed_reps,
+                                            col_name = {{passed_col_name}})
+  
+  sample_in_fn %>% ggplot(aes(x = x_bar)) +
+                   geom_histogram(binwidth = 0.25) +
+                   geom_vline(aes(xintercept = mean(x_bar)),
+                              colour = "red",
+                              linetype = "dashed",
+                              linewidth = 1) +
+                   geom_text(x = mean(sample_in_fn$x_bar),
+                             y = Inf,
+                             vjust = 1,
+                             aes(label = paste("Estimated mean = ",
+                                               mean(x_bar))))
 }
 
   # Q9: 50 samples of size 50
-sample_means50 <- titanic_clean %>% sample_mean(sample_size = 50
-                                                , sample_reps = 50
-                                                , col_name = Age)
+    # What is required, making a vector of sample_means50
+sample_means50 <- titanic_clean %>% sample_mean(sample_size = 50,
+                                                sample_reps = 50,
+                                                col_name = Age)
 
-sample_means50 %>% sample_plot()
+sample_plot(passed_sampled_df = sample_means50, passed_col_name = x_bar)
 
+    # What isn't required but I'm just being fancy -Supermjork
 titanic_clean %>% sample_plot_mean(passed_size = 50,
                                    passed_reps = 50,
                                    passed_col_name = Age)
-
-# titanic_clean %>% rep_sample_n(size = 50, reps = 50, TRUE)
 
   # Q10: 100 samples of size 50
 
