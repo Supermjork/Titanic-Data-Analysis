@@ -128,8 +128,11 @@ sample_mean <- function(sample_passed, sample_size, sample_reps, col_name) {
 }
 
 # Another fancy function to plot the samples (Has to be used with above fn)
-sample_plot <- function(sample_df) {
-  sample_df %>% ggplot(aes(x = x_bar)) +
+sample_plot_mean <- function(sample_df, passed_size, passed_reps, passed_col_name) {
+  sample_df %>% sample_mean(sample_size = passed_size,
+                            sample_reps = passed_reps,
+                            col_name = passed_col_name)
+                ggplot(aes(x = x_bar)) +
                 geom_histogram(binwidth = 0.25) +
                 geom_vline(aes(xintercept = mean(x_bar)),
                            colour = "red",
@@ -148,6 +151,10 @@ sample_means50 <- titanic_clean %>% sample_mean(sample_size = 50
                                                 , col_name = Age)
 
 sample_means50 %>% sample_plot()
+
+titanic_clean %>% sample_plot_mean(passed_size = 50,
+                                   passed_reps = 50,
+                                   passed_col_name = Age)
 
 # titanic_clean %>% rep_sample_n(size = 50, reps = 50, TRUE)
 
