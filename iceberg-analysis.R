@@ -11,6 +11,7 @@ library(tidyverse)
 # the top facet for Female ages? yes
 # Also don't forget to install.packages() it :)
 library(lemon)
+library(ggpubr)
 
 source("generic-functions.R")
 
@@ -71,7 +72,9 @@ sample_means50 <- titanic_clean %>% sample_mean(sample_size = 50,
                                                 sample_reps = 50,
                                                 col_name = Age)
 
-sample_mean_plot(passed_sampled_df = sample_means50)
+means_50_plot <- sample_mean_plot(passed_sampled_df = sample_means50)
+
+means_50_plot
 
     # What isn't required but I'm just being fancy -Supermjork
 titanic_clean %>% sample_plot_mean(passed_size = 50,
@@ -79,5 +82,58 @@ titanic_clean %>% sample_plot_mean(passed_size = 50,
                                    passed_col_name = Age)
 
   # Q10: 100 samples of size 50
+sample_means100 <- titanic_clean %>% sample_mean(sample_size = 50,
+                                                 sample_reps = 100,
+                                                 col_name = Age)
+
+means_100_plot <- sample_mean_plot(passed_sampled_df = sample_means100)
+
+means_100_plot
 
   # Q11: 1000 samples of size 50
+sample_means1000 <- titanic_clean %>% sample_mean(sample_size = 50,
+                                                  sample_reps = 1000,
+                                                  col_name = Age)
+
+means_1000_plot <- sample_mean_plot(passed_sampled_df = sample_means1000)
+
+means_1000_plot
+
+  # Q13: 1500 samples of size 20
+sample_means_s20 <- titanic_clean %>% sample_mean(sample_size = 20,
+                                                  sample_reps = 1500,
+                                                  col_name = Age)
+
+means_s20_plot <- sample_mean_plot(passed_sampled_df = sample_means_s20)
+
+means_s20_plot
+
+  # Q14: 1500 samples of size 100
+sample_means_s100 <- titanic_clean %>% sample_mean(sample_size = 100,
+                                                   sample_reps = 1500,
+                                                   col_name = Age)
+
+means_s100_plot <- sample_mean_plot(passed_sampled_df = sample_means_s100)
+
+means_s100_plot
+
+  # Q15: 1500 samples of size 200
+sample_means_s200 <- titanic_clean %>% sample_mean(sample_size = 200,
+                                                   sample_reps = 1500,
+                                                   col_name = Age)
+
+means_s200_plot <- sample_mean_plot(passed_sampled_df = sample_means_s200)
+
+means_s200_plot
+
+  # Optional: Combining all previous plots based on their size/reps
+  #           looks scuffed asf pls ignore, but the idea is there ig
+means_50All_combined <- list(means_50_plot, means_100_plot, means_1000_plot)
+
+combined_plot_size50 <- ggarrange(plotlist = means_50All_combined,
+                                  labels = c("Size 50, Reps 50",
+                                             "Size 50, Reps 100",
+                                             "Size 50, Reps 1000"),
+                                  ncol = 1, nrow = 3)
+
+combined_plot_size50

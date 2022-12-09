@@ -12,7 +12,9 @@ sample_mean_plot <- function(passed_sampled_df) {
   mean_of_mean <- mean(passed_sampled_df$x_bar)
   
   passed_sampled_df %>% ggplot(aes(x = x_bar)) +
-                        geom_histogram(binwidth = 0.25) +
+                        labs(title = deparse(substitute(passed_sampled_df))) +
+                        geom_histogram(binwidth = 0.25,
+                                       aes(fill = after_stat(count))) +
                         geom_vline(aes(xintercept = mean_of_mean),
                                    colour = "red",
                                    linetype = "dashed",
@@ -34,7 +36,8 @@ sample_plot_mean <- function(sample_df,
                                             sample_reps = passed_reps,
                                             col_name = {{passed_col_name}})
   sample_in_fn %>% ggplot(aes(x = x_bar)) +
-                   geom_histogram(binwidth = 0.25) +
+                   geom_histogram(binwidth = 0.25,
+                                  aes(fill = after_stat(count))) +
                    geom_vline(aes(xintercept = mean(x_bar)),
                               colour = "red",
                               linetype = "dashed",
