@@ -14,7 +14,9 @@ sample_mean_plot <- function(passed_sampled_df) {
   passed_sampled_df %>% ggplot(aes(x = x_bar)) +
                         labs(title = deparse(substitute(passed_sampled_df))) +
                         geom_histogram(binwidth = 0.25,
-                                       aes(fill = after_stat(count))) +
+                                       aes(fill = after_stat(count))) + 
+                        scale_fill_continuous(high = "#003b94",
+                                              low = "#6ac2eb") +
                         geom_vline(aes(xintercept = mean_of_mean),
                                    colour = "red",
                                    linetype = "dashed",
