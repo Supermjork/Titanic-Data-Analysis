@@ -44,7 +44,8 @@ gender_absmean <- geom_vline(aes(xintercept = mean(Age),
                              linewidth = 1)
 
 # Facets the graph into 2 grids for each gender
-age_plot_grid <- facet_grid(Sex ~ .)
+age_plot_grid <- facet_rep_grid(Sex ~ ., scales = "free",
+                                repeat.tick.labels = TRUE)
 
 # Write which layers to add onto the plot
 age_fancyplot + list(gender_mean_age, age_plot_grid)

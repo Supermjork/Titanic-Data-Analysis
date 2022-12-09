@@ -7,6 +7,10 @@ library(statsr)
 library(dplyr)
 library(ggplot2)
 library(tidyverse)
+# Did I seriously install this for the sole purpose of displaying x-axis on
+# the top facet for Female ages? yes
+# Also don't forget to install.packages() it :)
+library(lemon)
 
 source("generic-functions.R")
 
