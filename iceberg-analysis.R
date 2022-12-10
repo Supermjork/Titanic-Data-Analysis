@@ -158,7 +158,7 @@ var_plot_s50
 # age_sample50 <- sample_n(titanic_clean, size = 50) # This code sucks
 # mme_age_sample50 <- mean(age_sample50$Age)
 # mme_age_sample50_bias <- mme_age_sample50 - mean(titanic$Age)
-#MME 
+#MME
 mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
