@@ -128,7 +128,7 @@ means_s200_plot
 
   # Optional: Combining all previous plots based on their size/reps
   #           looks scuffed asf pls ignore, but the idea is there ig
-means_50All_combined <- list(means_50_plot, means_100_plot, means_1000_plot)
+means_50all_combined <- list(means_50_plot, means_100_plot, means_1000_plot)
 
 combined_plot_size50 <- ggarrange(plotlist = means_50All_combined,
                                   labels = c("Size 50, Reps 50",
