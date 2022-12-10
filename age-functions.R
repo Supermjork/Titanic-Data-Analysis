@@ -59,4 +59,3 @@ age_plot <- titanic_clean %>% ggplot(aes(x = Age)) +
                                          colour = "red",
                                          linetype = "dashed",
                                          linewidth = 1)
-

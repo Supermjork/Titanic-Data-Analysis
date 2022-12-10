@@ -137,6 +137,7 @@ combined_plot_size50 <- ggarrange(plotlist = means_50all_combined,
                                   ncol = 1, nrow = 3)
 
 combined_plot_size50
+
 source("all-ze-variances.R")
 sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 2,
