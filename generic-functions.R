@@ -54,15 +54,13 @@ sample_variance <- function(sample_passed, sample_size, sample_reps, col_name) {
   sample_passed %>% rep_sample_n(size = sample_size,
                                  reps = sample_reps,
                                  replace = TRUE) %>%
-    summarise(S_squared = var({{col_name}}))
-  # If you're lazy about it, write Age in mean(), but I want to generic
-  # I swear it worked but I broke it and can't remember how it was written
+    summarise(s_squared = var({{col_name}}))
 }
 sample_var_plot <- function(passed_sampled_df) {
-  mean_of_mean <- mean(passed_sampled_df$S_squared)
-  passed_sampled_df %>% ggplot(aes(x = S_squared)) +
+  mean_of_mean <- mean(passed_sampled_df$s_squared)
+  passed_sampled_df %>% ggplot(aes(x = s_squared)) +
                         labs(title = deparse(substitute(passed_sampled_df))) +
-                        geom_histogram(binwidth = 0.25,
+                        geom_histogram(binwidth = 5,
                                        aes(fill = after_stat(count))) +
                         scale_fill_continuous(high = "#003b94",
                                               low = "#6ac2eb") +

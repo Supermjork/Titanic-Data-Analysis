@@ -137,3 +137,15 @@ combined_plot_size50 <- ggarrange(plotlist = means_50All_combined,
                                   ncol = 1, nrow = 3)
 
 combined_plot_size50
+sample_u1500 <- sample_variance(sample_passed = titanic_clean,
+                                sample_size = 2,
+                                sample_reps = 1500,
+                                col_name = Age)
+var_plot_s2 <- sample_var_plot(sample_u1500)
+var_plot_s2
+sample_u1500 <- sample_variance(sample_passed = titanic_clean,
+                                sample_size = 50,
+                                sample_reps = 1500,
+                                col_name = Age)
+var_plot_s50 <- sample_var_plot(sample_u1500)
+var_plot_s50
