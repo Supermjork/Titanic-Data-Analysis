@@ -144,10 +144,23 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_reps = 1500,
                                 col_name = Age)
 var_plot_s2 <- sample_var_plot(sample_u1500)
+# This my friend looks like a chi tho
 var_plot_s2
 sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 50,
                                 sample_reps = 1500,
                                 col_name = Age)
-var_plot_s50 <- sample_var_plot(sample_u1500)
+var_plot_s50 <- sample_var_plot(sample_u1500) # Normal Distrib lookin
 var_plot_s50
+
+#Estimators time
+
+# age_sample50 <- sample_n(titanic_clean, size = 50) # This code sucks
+# mme_age_sample50 <- mean(age_sample50$Age)
+# mme_age_sample50_bias <- mme_age_sample50 - mean(titanic$Age)
+#MME 
+mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
+                                            sample_size = 50,
+                                            col_name = "Age")
+source("estimations.R")
+mme_age_sample50_bias
