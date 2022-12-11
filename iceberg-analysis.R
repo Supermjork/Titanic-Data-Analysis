@@ -146,7 +146,7 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
 var_plot_s2 <- sample_var_plot(sample_u1500)
 
 # This my friend looks like a chi tho
-var_plot_s2 %>% save_plot(width = 1920, height = 1080, "plots")
+var_plot_s2 %>% save_plot(width = 1920, 1080, "path")
 
 sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 50,
@@ -163,9 +163,9 @@ var_plot_s50
 # mme_age_sample50_bias <- mme_age_sample50 - mean(titanic$Age)
 
   # MME
+source("estimations.R")
 mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
-source("estimations.R")
 
 mme_age_sample50_bias
