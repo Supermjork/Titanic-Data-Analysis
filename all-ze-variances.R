@@ -1,4 +1,4 @@
-#Für du mein freund )))))
+# Für du mein freund )))))
 sample_variance <- function(sample_passed, sample_size, sample_reps, col_name) {
   sample_passed %>% rep_sample_n(size = sample_size,
                                  reps = sample_reps,

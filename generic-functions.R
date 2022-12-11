@@ -75,3 +75,15 @@ sample_var_plot <- function(passed_sampled_df) {
                                   aes(label = paste("Estimated Variance = ",
                                                     mean_of_mean)))
 }
+
+# Function to save plots, will take the plot variable as first argument (pipe)
+# extension is hardcoded to .pdf
+# will be defaulting the name to the variable's name because yes
+# takes width and height, you can specify the unit or we could hardcode it
+save_plot <- function(plot_to_save, width, height, foldername) {
+  ggsave(filename = paste0(deparse(substitute(plot_to_save))),
+         device = "pdf",
+         plot = plot_to_save,
+         path = foldername,
+         width = width, height = height, units = "px")
+}
