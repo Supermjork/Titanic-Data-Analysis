@@ -111,5 +111,5 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
   pop_df %>% ggplot(aes(x = grouped_col),
                     fill = grouped_col,
                     colour = grouped_col) +
-             geom_histogram(binwidth = 1, alpha = 1)
+             geom_bar(binwidth = 1, alpha = 1)
 }
