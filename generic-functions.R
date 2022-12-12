@@ -10,7 +10,6 @@ sample_mean <- function(sample_passed, sample_size, sample_reps, col_name) {
 sample_mean_plot <- function(passed_sampled_df) {
   # E(x_bar) = mu
   mean_of_mean <- mean(passed_sampled_df$x_bar)
-  
   # Plotting x_bar
   passed_sampled_df %>% ggplot(aes(x = x_bar)) +
                         labs(title = deparse(substitute(passed_sampled_df))) +
@@ -103,7 +102,6 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
   # Getting minimum and maximum values of column that will be sliced
   col_min <- round(min(pop_df[[ranging_column]]))
   col_max <- max(pop_df[[ranging_column]])
-  
   pop_df$grouped_col <- cut(pop_df[[ranging_column]],
                                 breaks = seq(from = col_min,
                                              to = col_max,

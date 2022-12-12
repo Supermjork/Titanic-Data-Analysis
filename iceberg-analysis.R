@@ -57,6 +57,7 @@ titanic_clean %>% matrix_summary(summary_columns = matrix_columns,
 source("age-functions.R")
 
 age_range_by_gender <- populus_range(titanic_clean, 10, "Sex", "Age")
+age_range_by_gender
 
 # Question 8, to take a random pop sample of age and point estimate the mean
 # and standard deviation
