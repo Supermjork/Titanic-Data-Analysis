@@ -41,3 +41,4 @@ vignettes/*.pdf
 
 # R project file
 /*.Rproj
+/plots/
