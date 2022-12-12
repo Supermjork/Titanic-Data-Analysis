@@ -146,7 +146,7 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
 var_plot_s2 <- sample_var_plot(sample_u1500)
 
 # This my friend looks like a chi tho
-var_plot_s2 %>% save_plot(width = 1920, 1080, "path")
+var_plot_s2 %>% save_plot(width = 1920, 1080, "plots")
 
 sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 50,

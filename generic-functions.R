@@ -81,6 +81,7 @@ sample_var_plot <- function(passed_sampled_df) {
 # will be defaulting the name to the variable's name because yes
 # takes width and height, you can specify the unit or we could hardcode it
 save_plot <- function(plot_to_save, width, height, foldername) {
+  file.create(paste0(foldername, plot_to_save$labels$title, ".pdf"))
   ggsave(filename = paste0(plot_to_save$labels$title, ".pdf"), #cant open file?
          plot = plot_to_save,
          path = foldername,
