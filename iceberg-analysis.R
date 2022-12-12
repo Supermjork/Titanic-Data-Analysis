@@ -7,9 +7,6 @@ library(statsr)
 library(dplyr)
 library(ggplot2)
 library(tidyverse)
-# Did I seriously install this for the sole purpose of displaying x-axis on
-# the top facet for Female ages? yes
-# Also don't forget to install.packages() it :)
 library(lemon)
 library(ggpubr)
 
@@ -59,6 +56,9 @@ titanic_clean %>% matrix_summary(summary_columns = matrix_columns,
 
 source("age-functions.R")
 
+age_range_by_gender <- populus_range(titanic_clean, 10, "Sex", "Age")
+age_range_by_gender
+
 # Question 8, to take a random pop sample of age and point estimate the mean
 # and standard deviation
 pt_estimate_sample <- titanic_clean %>% sample_n(size = 50, replace = TRUE)
@@ -77,6 +77,8 @@ means_50_plot <- sample_mean_plot(passed_sampled_df = sample_means50)
 means_50_plot
 
     # What isn't required but I'm just being fancy -Supermjork
+      # Basically takes in the population and does what the other two functions
+      # do, get mean and plot
 titanic_clean %>% sample_plot_mean(passed_size = 50,
                                    passed_reps = 50,
                                    passed_col_name = Age)

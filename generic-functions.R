@@ -1,15 +1,16 @@
+# Function to calculate the means from a passed column
 sample_mean <- function(sample_passed, sample_size, sample_reps, col_name) {
   sample_passed %>% rep_sample_n(size = sample_size,
                                  reps = sample_reps,
                                  replace = TRUE) %>%
     summarise(x_bar = mean({{col_name}}))
-  # If you're lazy about it, write Age in mean(), but I want to generic
-  # I swear it worked but I broke it and can't remember how it was written
 }
 
 # Another fancy function to plot the samples (Has to be used with above fn)
 sample_mean_plot <- function(passed_sampled_df) {
+  # E(x_bar) = mu
   mean_of_mean <- mean(passed_sampled_df$x_bar)
+  # Plotting x_bar
   passed_sampled_df %>% ggplot(aes(x = x_bar)) +
                         labs(title = deparse(substitute(passed_sampled_df))) +
                         geom_histogram(binwidth = 0.25,
@@ -49,31 +50,36 @@ sample_plot_mean <- function(sample_df,
                              aes(label = paste("Estimated mean = ",
                                                mean(x_bar))))
 }
+
+# Function to calculate the variance of a sample
 sample_variance <- function(sample_passed, sample_size, sample_reps, col_name) {
   sample_passed %>% rep_sample_n(size = sample_size,
                                  reps = sample_reps,
                                  replace = TRUE) %>%
-    summarise(S_squared = var({{col_name}}))
-  # If you're lazy about it, write Age in mean(), but I want to generic
-  # I swear it worked but I broke it and can't remember how it was written
+    summarise(s_squared = var({{col_name}}))
 }
+
+# Plotting the variance from a passed df of calculated variances
 sample_var_plot <- function(passed_sampled_df) {
-  mean_of_mean <- mean(passed_sampled_df$S_squared)
-  passed_sampled_df %>% ggplot(aes(x = S_squared)) +
+  # E(s^2) = \sigma^2
+  sample_variance_exp <- mean(passed_sampled_df$s_squared)
+  
+  # Plotting the variance's distribution
+  passed_sampled_df %>% ggplot(aes(x = s_squared)) +
                         labs(title = deparse(substitute(passed_sampled_df))) +
                         geom_histogram(binwidth = 0.25,
                                        aes(fill = after_stat(count))) +
                         scale_fill_continuous(high = "#003b94",
                                               low = "#6ac2eb") +
-                        geom_vline(aes(xintercept = mean_of_mean),
+                        geom_vline(aes(xintercept = sample_variance_exp),
                                    colour = "red",
                                    linetype = "dashed",
                                    linewidth = 1) +
-                        geom_text(x = mean_of_mean,
+                        geom_text(x = sample_variance_exp, # $\sigma^2$
                                   y = Inf,
                                   vjust = 1,
                                   aes(label = paste("Estimated Variance = ",
-                                                    mean_of_mean)))
+                                                    sample_variance_exp)))
 }
 
 # Function to save plots, will take the plot variable as first argument (pipe)
@@ -81,9 +87,29 @@ sample_var_plot <- function(passed_sampled_df) {
 # will be defaulting the name to the variable's name because yes
 # takes width and height, you can specify the unit or we could hardcode it
 save_plot <- function(plot_to_save, width, height, foldername) {
+  # Creating the file first for ggsave() to be able to open
   file.create(paste0(foldername, plot_to_save$labels$title, ".pdf"))
-  ggsave(filename = paste0(plot_to_save$labels$title, ".pdf"), #cant open file?
+  
+  # The actual save with passed parameters
+  ggsave(filename = paste0(plot_to_save$labels$title, ".pdf"),
          plot = plot_to_save,
          path = foldername,
          width = width, height = height, units = "px")
+}
+
+# Function to divide the population into ranges
+populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
+  # Getting minimum and maximum values of column that will be sliced
+  col_min <- round(min(pop_df[[ranging_column]]))
+  col_max <- max(pop_df[[ranging_column]])
+  pop_df$grouped_col <- cut(pop_df[[ranging_column]],
+                                breaks = seq(from = col_min,
+                                             to = col_max,
+                                             by = pass_step),
+                                right = TRUE)
+
+  pop_df %>% ggplot(aes(x = grouped_col),
+                    fill = grouped_col,
+                    colour = grouped_col) +
+             geom_bar(binwidth = 1, alpha = 1)
 }
