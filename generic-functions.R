@@ -63,7 +63,6 @@ sample_variance <- function(sample_passed, sample_size, sample_reps, col_name) {
 sample_var_plot <- function(passed_sampled_df) {
   # E(s^2) = \sigma^2
   sample_variance_exp <- mean(passed_sampled_df$s_squared)
-  
   # Plotting the variance's distribution
   passed_sampled_df %>% ggplot(aes(x = s_squared)) +
                         labs(title = deparse(substitute(passed_sampled_df))) +
