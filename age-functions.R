@@ -74,3 +74,15 @@ age_plot <- titanic_clean %>% ggplot(aes(x = Age)) +
                                          linetype = "dashed",
                                          linewidth = 1)
 age_plot
+
+# Q21 time
+# Linly pls insert your id
+age_male_ <- titanic_clean %>%
+             group_by(Sex) %>%
+             filter(any(Sex == "male")) %>%
+             rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+age_female_20221372981 <- titanic_clean %>% 
+                          group_by(Sex) %>%
+                          filter(any(Sex == "female")) %>% 
+                          rep_sample_n(size = 50, reps = 15000, replace = TRUE)
