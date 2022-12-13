@@ -102,7 +102,6 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
   # Getting minimum and maximum values of column that will be sliced
   col_min <- round(min(pop_df[[ranging_column]]))
   col_max <- max(pop_df[[ranging_column]])
-  
   pop_df$grouped_col <- cut(pop_df[[ranging_column]],
                                 breaks = seq(from = col_min,
                                              to = col_max,
@@ -110,7 +109,7 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
                                 right = TRUE)
 
   # Colour gradient for Population age ranges (M/F) 4e0096, d062f5
-  pop_df %>% ggplot(aes(x = grouped_col,
+  population_age <- pop_df %>% ggplot(aes(x = grouped_col,
                         fill = after_stat(count))) +
              labs(title = paste0({{ranging_column}},
                                  " Range Plot"),
@@ -119,12 +118,11 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
              scale_fill_continuous(high = "#4e0096",
                                    low = "#d062f5") +
              geom_bar() +
-             geom_text(stat = 'count',
+             geom_text(stat = "count",
                        aes(label = after_stat(count)), # fix count pls
-                       vjust = 0) -> population_age
-  
+                       vjust = 0)
   # Colour gradient for Male age ranges 003b94, 6ac2eb
-  pop_df %>% group_by(Sex == "male") %>%
+  male_pop_range <- pop_df %>% group_by(Sex) %>% filter(any(Sex == "male")) %>%
              ggplot(aes(x = grouped_col,
                         fill = after_stat(count))) +
              labs(title = paste0("Male ", {{ranging_column}},
@@ -134,12 +132,11 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
              scale_fill_continuous(high = "#003b94",
                                    low = "#6ac2eb") +
              geom_bar() +
-             geom_text(stat = 'count',
+             geom_text(stat = "count",
                        aes(label = after_stat(count)), # fix count pls
-                       vjust = 0) -> male_pop_range
-  
+                       vjust = 0)
   # Colour gradient for Female age ranges 960661, de47a6
-  pop_df %>% group_by(Sex == "female") %>%
+  female_pop_range <- pop_df %>% group_by(Sex) %>% filter(any(Sex == "female")) %>%
              ggplot(aes(x = grouped_col,
                         fill = after_stat(count))) +
              labs(title = paste0("Female ",
@@ -151,12 +148,10 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
              scale_fill_continuous(high = "#960661",
                                    low = "#de47a6") +
              geom_bar() +
-             geom_text(stat = 'count',
+             geom_text(stat = "count",
                        aes(label = after_stat(count)), # fix count pls
-                       vjust = 1) -> female_pop_range
-  
+                       vjust = 1)
   combined_plots <- list(population_age, male_pop_range, female_pop_range)
-  
   ggarrange(plotlist = combined_plots,
             ncol = 1,
             nrow = 3)

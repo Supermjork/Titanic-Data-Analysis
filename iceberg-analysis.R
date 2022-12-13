@@ -55,6 +55,8 @@ titanic_clean %>% matrix_summary(summary_columns = matrix_columns,
                                  summary_matrix_row = matrix_rows)
 
 source("age-functions.R")
+age_fancyplot + list(gender_mean_age, age_plot_grid)
+
 
 age_range_by_gender <- populus_range(titanic_clean, 10, "Sex", "Age")
 age_range_by_gender
@@ -133,9 +135,6 @@ means_s200_plot
 means_50all_combined <- list(means_50_plot, means_100_plot, means_1000_plot)
 
 combined_plot_size50 <- ggarrange(plotlist = means_50all_combined,
-                                  labels = c("Size 50, Reps 50",
-                                             "Size 50, Reps 100",
-                                             "Size 50, Reps 1000"),
                                   ncol = 1, nrow = 3)
 
 combined_plot_size50
@@ -148,7 +147,7 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
 var_plot_s2 <- sample_var_plot(sample_u1500)
 
 # This my friend looks like a chi tho
-var_plot_s2 %>% save_plot(width = 1920, 1080, "plots")
+var_plot_s2
 
 sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 50,
