@@ -9,3 +9,7 @@ mme_estimator_bias <- function(population, sample_size, col_name) {
   # Gives the bias of the estimator (Not absolute)
   return(estimate_value - true_value)
 }
+
+mle_estimator_bias <- function(population, sample_size, col_name) {
+  # Will write later
+}

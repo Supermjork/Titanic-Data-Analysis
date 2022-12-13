@@ -54,12 +54,14 @@ titanic_clean %>% matrix_summary(summary_columns = matrix_columns,
                                  summary_functions = matrix_functions,
                                  summary_matrix_row = matrix_rows)
 
-source("age-functions.R")
-age_fancyplot + list(gender_mean_age, age_plot_grid)
-
-
+# Plotting the range of ages
 age_range_by_gender <- populus_range(titanic_clean, 10, "Sex", "Age")
 age_range_by_gender
+
+# Plotting the population's ages (Must pick environment variables from
+# age-functions.R and insert into list (i.e. layers on top of basic graph))
+source("age-functions.R")
+age_fancyplot + list(gender_mean_age, age_plot_grid, age_plot_text)
 
 # Question 8, to take a random pop sample of age and point estimate the mean
 # and standard deviation
