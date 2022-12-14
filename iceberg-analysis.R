@@ -138,12 +138,12 @@ means_s200_plot <- sample_mean_plot(passed_sampled_df = sample_means_s200)
 
 means_s200_plot
 
-  # Optional: Combining all previous plots based on their size/reps
-  #           looks scuffed asf pls ignore, but the idea is there ig
+  # Combined plot of any amount of plots above
 means_50all_combined <- list(means_50_plot, means_100_plot, means_1000_plot)
 
 combined_plot_size50 <- ggarrange(plotlist = means_50all_combined,
-                                  ncol = 1, nrow = 3)
+                                  ncol = 1,
+                                  nrow = length(means_50all_combined))
 
 combined_plot_size50
 
@@ -178,3 +178,19 @@ mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
                                             col_name = "Age")
 
 mme_age_sample50_bias
+
+
+# Q21 time
+age_male_20221445850 <- titanic_clean %>%
+                        group_by(Sex) %>%
+                        filter(any(Sex == "male")) %>%
+                        rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+age_female_20221372981 <- titanic_clean %>% 
+                          group_by(Sex) %>%
+                          filter(any(Sex == "female")) %>% 
+                          rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+samplediff_means15000 <- mean_difference(age_male_20221445850,
+                                         age_female_20221372981,
+                                         Age)

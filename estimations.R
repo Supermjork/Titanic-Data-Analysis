@@ -7,7 +7,8 @@ mme_estimator_bias <- function(population, sample_size, col_name) {
   # Calculating the mean of said gathered sample
   estimate_value <- mean(sample_mean[[col_name]])
   # Gives the bias of the estimator (Not absolute)
-  return(estimate_value - true_value)
+  return(paste0("Estimated Mean: ", estimate_value,
+         ", bias: ", estimate_value - true_value))
 }
 
 mle_estimator_bias <- function(population, sample_size, col_name) {

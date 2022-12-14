@@ -24,6 +24,7 @@ sample_mean_plot <- function(passed_sampled_df) {
                         geom_text(x = mean_of_mean,
                                   y = Inf,
                                   vjust = 1,
+                                  hjust = "inward",
                                   aes(label = paste("Estimated mean = ",
                                                     mean_of_mean)))
 }
@@ -38,48 +39,19 @@ sample_plot_mean <- function(sample_df,
                                             sample_reps = passed_reps,
                                             col_name = {{passed_col_name}})
   sample_in_fn %>% ggplot(aes(x = x_bar)) +
+                   labs(title = deparse(substitute(passed_sampled_df))) +
                    geom_histogram(binwidth = 0.25,
                                   aes(fill = after_stat(count))) +
                    geom_vline(aes(xintercept = mean(x_bar)),
                               colour = "red",
                               linetype = "dashed",
                               linewidth = 1) +
-                   geom_density() +
                    geom_text(x = mean(sample_in_fn$x_bar),
                              y = Inf,
                              vjust = 1,
+                             hjust = "inward",
                              aes(label = paste("Estimated mean = ",
                                                mean(x_bar))))
-}
-
-# Function to calculate the variance of a sample
-sample_variance <- function(sample_passed, sample_size, sample_reps, col_name) {
-  sample_passed %>% rep_sample_n(size = sample_size,
-                                 reps = sample_reps,
-                                 replace = TRUE) %>%
-                    summarise(s_squared = var({{col_name}}))
-}
-
-# Plotting the variance from a passed df of calculated variances
-sample_var_plot <- function(passed_sampled_df) {
-  # E(s^2) = \sigma^2
-  sample_variance_exp <- mean(passed_sampled_df$s_squared)
-  # Plotting the variance's distribution
-  passed_sampled_df %>% ggplot(aes(x = s_squared)) +
-                        labs(title = deparse(substitute(passed_sampled_df))) +
-                        geom_histogram(binwidth = 0.25,
-                                       aes(fill = after_stat(count))) +
-                        scale_fill_continuous(high = "#003b94",
-                                              low = "#6ac2eb") +
-                        geom_vline(aes(xintercept = sample_variance_exp),
-                                   colour = "red",
-                                   linetype = "dashed",
-                                   linewidth = 1) +
-                        geom_text(x = sample_variance_exp, # $\sigma^2$
-                                  y = Inf,
-                                  vjust = 1,
-                                  aes(label = paste("Estimated Variance = ",
-                                                    sample_variance_exp)))
 }
 
 # Function to save plots, will take the plot variable as first argument (pipe)
@@ -108,34 +80,37 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
                                              by = pass_step),
                                 right = TRUE)
 
-  # Colour gradient for Population age ranges (M/F) 4e0096, d062f5
+  # Colour gradient for Population age ranges (M/F) H:681ab0, L:d062f5
   population_age <- pop_df %>% ggplot(aes(x = grouped_col,
                                           fill = after_stat(count))) +
                                labs(title = paste0({{ranging_column}},
                                                    " Range Plot"),
                                     x = paste0({{ranging_column}},
                                                " Ranges")) +
-                               scale_fill_continuous(high = "#4e0096",
+                               scale_fill_continuous(high = "#681ab0",
                                                      low = "#d062f5") +
                                geom_bar() +
                                geom_text(stat = "count",
-                                         aes(label = after_stat(count)),
-                                             vjust = 0)
-  # Colour gradient for Male age ranges 003b94, 6ac2eb
-  male_pop_range <- pop_df %>% group_by(Sex) %>% filter(any(Sex == "male")) %>%
-                               ggplot(aes(x = grouped_col,
-                                          fill = after_stat(count))) +
-                               labs(title = paste0("Male ", {{ranging_column}},
-                                                   " Range Plot"),
-                                    x = paste0("Male ", {{ranging_column}},
-                                               " Ranges")) +
-                               scale_fill_continuous(high = "#003b94",
-                                                     low = "#6ac2eb") +
-                               geom_bar() +
-                               geom_text(stat = "count",
-                                         aes(label = after_stat(count)),
-                                         vjust = 0)
-  # Colour gradient for Female age ranges 960661, de47a6
+                                         aes(label = after_stat(count),
+                                             vjust = "inwards"))
+  
+  # Colour gradient for Male age ranges H: 2b61e0, L:57beeb
+  male_pop_range <- pop_df %>% group_by(Sex) %>%
+                    filter(any(Sex == "male")) %>%
+                    ggplot(aes(x = grouped_col,
+                               fill = after_stat(count))) +
+                    labs(title = paste0("Male ", {{ranging_column}},
+                                        " Range Plot"),
+                         x = paste0("Male ", {{ranging_column}},
+                                    " Ranges")) +
+                    scale_fill_continuous(high = "#2b61e0",
+                                          low = "#57beeb") +
+                    geom_bar() +
+                    geom_text(stat = "count",
+                              aes(label = after_stat(count)),
+                              vjust = "inward")
+  
+  # Colour gradient for Female age ranges H:960661, L:de47a6
   female_pop_range <- pop_df %>% group_by(Sex) %>%
                       filter(any(Sex == "female")) %>%
                       ggplot(aes(x = grouped_col,
@@ -151,9 +126,16 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
                       geom_bar() +
                       geom_text(stat = "count",
                                 aes(label = after_stat(count)),
-                                vjust = 0)
+                                vjust = "inward")
+  
   combined_plots <- list(population_age, male_pop_range, female_pop_range)
   ggarrange(plotlist = combined_plots,
             ncol = 1,
             nrow = 3)
+}
+
+# Function to take 2 dataframes, calculate the difference between their means
+# of a specified column
+mean_difference <- function(passed_df0, passed_df1, col_name) {
+  
 }
