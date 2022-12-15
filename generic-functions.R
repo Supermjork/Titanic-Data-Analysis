@@ -142,14 +142,17 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
   
   df1_means <- passed_df1 %>% summarise(x_bar = mean({{col_name}}))
   
+  # Merging the dataframes into one chunk
   result_df <- merge(df0_means, df1_means, by = "replicate")
   
+  # Getting the difference between the columns
   result_df$x_bar_diff <- result_df$x_bar.x - result_df$x_bar.y
   
   avg_diff <- mean(result_df$x_bar_diff)
   
   print(paste0("The average difference between ages: ", avg_diff))
   
+  # Plotting the difference
   result_df %>% ggplot(aes(x = x_bar_diff)) +
                 geom_histogram(binwidth = 0.25, 
                                aes(fill = after_stat(count))) +

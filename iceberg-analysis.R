@@ -196,3 +196,9 @@ samplediff_means15000 <- mean_difference(age_male_20221445850,
                                          Age)
 
 samplediff_means15000
+
+# Q22
+survived_male <- titanic_clean %>%
+                 group_by(Sex) %>%
+                 filter(any(Sex == "male" && Survived == 1)) %>%
+                 rep_sample_n(size = 50, reps = 15000, replace = TRUE)
