@@ -109,7 +109,6 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
                     geom_text(stat = "count",
                               aes(label = after_stat(count)),
                               vjust = "inward")
-  
   # Colour gradient for Female age ranges H:960661, L:de47a6
   female_pop_range <- pop_df %>% group_by(Sex) %>%
                       filter(any(Sex == "female")) %>%
@@ -127,7 +126,6 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
                       geom_text(stat = "count",
                                 aes(label = after_stat(count)),
                                 vjust = "inward")
-  
   combined_plots <- list(population_age, male_pop_range, female_pop_range)
   ggarrange(plotlist = combined_plots,
             ncol = 1,
@@ -137,5 +135,4 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
 # Function to take 2 dataframes, calculate the difference between their means
 # of a specified column
 mean_difference <- function(passed_df0, passed_df1, col_name) {
-  
 }
