@@ -61,7 +61,6 @@ sample_plot_mean <- function(sample_df,
 save_plot <- function(plot_to_save, width, height, foldername) {
   # Creating the file first for ggsave() to be able to open
   file.create(paste0(foldername, "/", plot_to_save$labels$title, ".pdf"))
-  
   # The actual save with passed parameters
   ggsave(filename = paste0(plot_to_save$labels$title, ".pdf"),
          plot = plot_to_save,
@@ -93,7 +92,6 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
                                geom_text(stat = "count",
                                          aes(label = after_stat(count),
                                              vjust = "inwards"))
-  
   # Colour gradient for Male age ranges H: 2b61e0, L:57beeb
   male_pop_range <- pop_df %>% group_by(Sex) %>%
                     filter(any(Sex == "male")) %>%
