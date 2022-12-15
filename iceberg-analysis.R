@@ -161,7 +161,8 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 50,
                                 sample_reps = 1500,
                                 col_name = Age)
-var_plot_s50 <- sample_var_plot(sample_u1500) # Normal Distrib lookin (Actually Chi?)
+var_plot_s50 <- sample_var_plot(sample_u1500)
+# Normal Distrib lookin (Actually Chi?)
 
 var_plot_s50
 
@@ -176,8 +177,12 @@ source("estimations.R")
 mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
-
 mme_age_sample50_bias
+#MLE
+mle_age_sample50 <- mle_estimator_bias(population = titanic_clean,
+                                           sample_size = 50,
+                                            col_name = "Age")
+mle_age_sample50$par
 
 
 # Q21 time
