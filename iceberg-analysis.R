@@ -205,5 +205,14 @@ samplediff_means15000
 # Q22
 survived_male <- titanic_clean %>%
                  group_by(Sex) %>%
-                 filter(any(Sex == "male" && Survived == 1)) %>%
+                 filter(any(Sex == "male")) %>%
                  rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+survived_female <- titanic_clean %>%
+                   group_by(Sex) %>%
+                   filter(any(Sex == "male")) %>%
+                   rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+samplediff_survived15000 <- survival_difference(survived_male, survived_female)
+
+samplediff_survived15000

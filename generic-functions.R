@@ -148,10 +148,17 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
   
   avg_diff <- mean(result_df$x_bar_diff)
   
-  print(paste0("The average difference between ages: ", avg_diff))
+  if(avg_diff > 0) {
+    print(paste0("The average difference between ages: ", avg_diff))
+    print(paste0("The males were relatively older."))
+  } else {
+    print(paste0("The average difference between ages: ", avg_diff))
+    print(paste0("The females were relatively older."))
+  }
   
   # Plotting the difference
   result_df %>% ggplot(aes(x = x_bar_diff)) +
+                labs(x = " Mean Difference") +
                 geom_histogram(binwidth = 0.25, 
                                aes(fill = after_stat(count))) +
                 geom_vline(aes(xintercept = avg_diff),
@@ -164,4 +171,71 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
                           y = Inf,
                           vjust = 1,
                           aes(label = paste0("Average difference: ", avg_diff)))
+}
+
+survival_difference <- function(passed_df0, passed_df1) {
+  # Counting the survivors/non-survivors in each sample in df0
+  count_survival_all0 <- passed_df0 %>% count(Survived == 1)
+  
+  # Getting count of survivors in each sample
+  count_survival_true0 <- count_survival_all0[seq(2,
+                                                  nrow(count_survival_all0),
+                                                  2), ]
+  
+  # Getting count of non-survivors in each sample
+  count_survival_false0 <- count_survival_all0[seq(1,
+                                                   nrow(count_survival_all0),
+                                                   2), ]
+  
+  # Counting survivors/non-survivors in each sample in df1
+  count_survival_all1 <- passed_df1 %>% count(Survived == 1)
+  
+  # Getting count of survivors in each sample
+  count_survival_true1 <- count_survival_all1[seq(2,
+                                                  nrow(count_survival_all1),
+                                                  2), ]
+  
+  # Getting count of non-survivors in each sample
+  count_survival_false1 <- count_survival_all1[seq(2,
+                                                   nrow(count_survival_all1),
+                                                   2), ]
+  
+  # Merging the two count-dfs of survivors
+  has_survived <- merge(count_survival_true0,
+                        count_survival_true1,
+                        by = "replicate")
+  
+  # Calculating the difference between survivors count
+  has_survived$rescue_diff <- has_survived$n.x - has_survived$n.y
+  
+  # Getting an average amount of survivors
+  rescue_avg <- mean(has_survived$rescue_diff)
+  
+  if(rescue_avg > 0) {
+    print(paste0("The difference in survivors on average was: ",
+                 ceiling(abs(rescue_avg))))
+    print(paste0("With males being rescued more,"))
+  } else {
+    print(paste0("The difference in survivors on average was: ",
+                 ceiling(abs(rescue_avg))))
+    print(paste0("With females being rescued more."))
+  }
+  
+  # Plotting the difference
+  has_survived %>% ggplot(aes(x = rescue_diff)) +
+                   labs(x = "Survival Difference") +
+                   geom_bar(aes(fill = after_stat(count))) +
+                   geom_vline(aes(xintercept = rescue_avg),
+                              colour = "red",
+                              linetype = "dashed",
+                              linewidth = 1) +
+                   scale_fill_continuous(high = "#003b94",
+                                         low = "#6ac2eb") +
+                   geom_text(x = rescue_avg,
+                             y = Inf,
+                             vjust = 1,
+                             aes(label = paste0("Average Rescues: ",
+                                                rescue_avg)))
+  
+  # Plotting survivability percentages from sample, i have no idea so i'll push
 }
