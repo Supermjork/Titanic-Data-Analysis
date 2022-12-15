@@ -210,7 +210,7 @@ survived_male <- titanic_clean %>%
 
 survived_female <- titanic_clean %>%
                    group_by(Sex) %>%
-                   filter(any(Sex == "male")) %>%
+                   filter(any(Sex == "female")) %>%
                    rep_sample_n(size = 50, reps = 15000, replace = TRUE)
 
 samplediff_survived15000 <- survival_difference(survived_male, survived_female)

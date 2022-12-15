@@ -221,6 +221,15 @@ survival_difference <- function(passed_df0, passed_df1) {
     print(paste0("With females being rescued more."))
   }
   
+  # Survivability percentages from sample, i have no idea so i'll push
+  # really simple, trust
+  survival_df0_percentage <- sum(count_survival_true0$n) / sum(count_survival_false0$n)
+  
+  survival_df1_percentage <- sum(count_survival_true1$n) / sum(count_survival_false1$n)
+  
+  print(paste0("Survival Rate for males: ", survival_df0_percentage, "%"))
+  print(paste0("Survival Rate for females: ", survival_df1_percentage, "%"))
+  
   # Plotting the difference
   has_survived %>% ggplot(aes(x = rescue_diff)) +
                    labs(x = "Survival Difference") +
@@ -236,6 +245,4 @@ survival_difference <- function(passed_df0, passed_df1) {
                              vjust = 1,
                              aes(label = paste0("Average Rescues: ",
                                                 rescue_avg)))
-  
-  # Plotting survivability percentages from sample, i have no idea so i'll push
 }
