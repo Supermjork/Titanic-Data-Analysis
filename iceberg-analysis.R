@@ -161,7 +161,7 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 50,
                                 sample_reps = 1500,
                                 col_name = Age)
-var_plot_s50 <- sample_var_plot(sample_u1500) # Normal Distrib lookin
+var_plot_s50 <- sample_var_plot(sample_u1500) # Normal Distrib lookin (Actually Chi?)
 
 var_plot_s50
 
@@ -186,9 +186,9 @@ age_male_20221445850 <- titanic_clean %>%
                         filter(any(Sex == "male")) %>%
                         rep_sample_n(size = 50, reps = 15000, replace = TRUE)
 
-age_female_20221372981 <- titanic_clean %>% 
+age_female_20221372981 <- titanic_clean %>%
                           group_by(Sex) %>%
-                          filter(any(Sex == "female")) %>% 
+                          filter(any(Sex == "female")) %>%
                           rep_sample_n(size = 50, reps = 15000, replace = TRUE)
 
 samplediff_means15000 <- mean_difference(age_male_20221445850,
