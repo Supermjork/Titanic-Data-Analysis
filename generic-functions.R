@@ -42,6 +42,8 @@ sample_plot_mean <- function(sample_df,
                    labs(title = deparse(substitute(passed_sampled_df))) +
                    geom_histogram(binwidth = 0.25,
                                   aes(fill = after_stat(count))) +
+                   scale_fill_continuous(high = "#003b94",
+                                         low = "#6ac2eb") +
                    geom_vline(aes(xintercept = mean(x_bar)),
                               colour = "red",
                               linetype = "dashed",
@@ -135,4 +137,30 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
 # Function to take 2 dataframes, calculate the difference between their means
 # of a specified column
 mean_difference <- function(passed_df0, passed_df1, col_name) {
+  # creating dataframes with sample mean of given column
+  df0_means <- passed_df0 %>% summarise(x_bar = mean({{col_name}}))
+  
+  df1_means <- passed_df1 %>% summarise(x_bar = mean({{col_name}}))
+  
+  result_df <- merge(df0_means, df1_means, by = "replicate")
+  
+  result_df$x_bar_diff <- result_df$x_bar.x - result_df$x_bar.y
+  
+  avg_diff <- mean(result_df$x_bar_diff)
+  
+  print(paste0("The average difference between ages: ", avg_diff))
+  
+  result_df %>% ggplot(aes(x = x_bar_diff)) +
+                geom_histogram(binwidth = 0.25, 
+                               aes(fill = after_stat(count))) +
+                geom_vline(aes(xintercept = avg_diff),
+                           colour = "red",
+                           linetype = "dashed",
+                           linewidth = 1) +
+                scale_fill_continuous(high = "#003b94",
+                                      low = "#6ac2eb") +
+                geom_text(x = avg_diff,
+                          y = Inf,
+                          vjust = 1,
+                          aes(label = paste0("Average difference: ", avg_diff)))
 }

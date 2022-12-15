@@ -194,3 +194,5 @@ age_female_20221372981 <- titanic_clean %>%
 samplediff_means15000 <- mean_difference(age_male_20221445850,
                                          age_female_20221372981,
                                          Age)
+
+samplediff_means15000
