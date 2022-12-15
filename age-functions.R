@@ -35,9 +35,9 @@ age_fancyplot <- titanic_clean %>% ggplot(aes(x = Age,
   # Shows the mean of ages by gender (Males' mean age, Females' mean age)
 gender_mean_age <- geom_vline(data = age_mean_gender,
                               aes(xintercept = mean,
-                                  colour = Sex,
-                                  linetype = "dashed",
-                                  linewidth = 1))
+                                  colour = Sex),
+                              linetype = "dashed",
+                              linewidth = 1)
 
   # Shows the absolute average of ages in the population
   # (Mean Age of both genders)
@@ -55,7 +55,8 @@ age_plot_text <- geom_text(data = age_mean_gender,
                            aes(x = mean,
                                y = Inf,
                                vjust = 1,
-                               label = paste0("Mean for ", Sex,
+                               hjust = "inward",
+                               label = paste0("Estimated Mean for ", Sex,
                                               " Age: ", mean)),
                            show.legend = FALSE,
                            colour = "black")

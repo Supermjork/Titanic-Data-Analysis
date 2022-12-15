@@ -54,6 +54,11 @@ titanic_clean %>% matrix_summary(summary_columns = matrix_columns,
                                  summary_functions = matrix_functions,
                                  summary_matrix_row = matrix_rows)
 
+# Counting how many NAs are in the dataset's columns
+na_in_df <- colSums(is.na(titanic))
+
+na_in_df
+
 # Plotting the range of ages
 age_range_by_gender <- populus_range(titanic_clean, 10, "Sex", "Age")
 age_range_by_gender
@@ -61,6 +66,7 @@ age_range_by_gender
 # Plotting the population's ages (Must pick environment variables from
 # age-functions.R and insert into list (i.e. layers on top of basic graph))
 source("age-functions.R")
+
 age_fancyplot + list(gender_mean_age, age_plot_grid, age_plot_text)
 
 # Question 8, to take a random pop sample of age and point estimate the mean
@@ -132,12 +138,12 @@ means_s200_plot <- sample_mean_plot(passed_sampled_df = sample_means_s200)
 
 means_s200_plot
 
-  # Optional: Combining all previous plots based on their size/reps
-  #           looks scuffed asf pls ignore, but the idea is there ig
+  # Combined plot of any amount of plots above
 means_50all_combined <- list(means_50_plot, means_100_plot, means_1000_plot)
 
 combined_plot_size50 <- ggarrange(plotlist = means_50all_combined,
-                                  ncol = 1, nrow = 3)
+                                  ncol = 1,
+                                  nrow = length(means_50all_combined))
 
 combined_plot_size50
 
@@ -155,7 +161,8 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 50,
                                 sample_reps = 1500,
                                 col_name = Age)
-var_plot_s50 <- sample_var_plot(sample_u1500) # Normal Distrib lookin
+var_plot_s50 <- sample_var_plot(sample_u1500)
+# Normal Distrib lookin (Actually Chi?)
 
 var_plot_s50
 
@@ -170,5 +177,42 @@ source("estimations.R")
 mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
-
 mme_age_sample50_bias
+#MLE
+mle_age_sample50 <- mle_estimator_bias(population = titanic_clean,
+                                           sample_size = 50,
+                                            col_name = "Age")
+mle_age_sample50$par
+
+
+# Q21 time
+age_male_20221445850 <- titanic_clean %>%
+                        group_by(Sex) %>%
+                        filter(any(Sex == "male")) %>%
+                        rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+age_female_20221372981 <- titanic_clean %>%
+                          group_by(Sex) %>%
+                          filter(any(Sex == "female")) %>%
+                          rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+samplediff_means15000 <- mean_difference(age_male_20221445850,
+                                         age_female_20221372981,
+                                         Age)
+
+samplediff_means15000
+
+# Q22
+survived_male <- titanic_clean %>%
+                 group_by(Sex) %>%
+                 filter(any(Sex == "male")) %>%
+                 rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+survived_female <- titanic_clean %>%
+                   group_by(Sex) %>%
+                   filter(any(Sex == "female")) %>%
+                   rep_sample_n(size = 50, reps = 15000, replace = TRUE)
+
+samplediff_survived15000 <- survival_difference(survived_male, survived_female)
+
+samplediff_survived15000
