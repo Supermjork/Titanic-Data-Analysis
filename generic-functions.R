@@ -239,3 +239,11 @@ constant_coeff <- function(sample, constant, coefficient, col_name) {
   print(paste0("E(", {{col_name}}, "): ", expectation_x))
   print(paste0("V(", {{col_name}}, "): ", variance_x))
 }
+
+random_sample <- function(population, sample_size, col_name) {
+  sample <- sample_n(poplation, size = sample_size)
+  sample <- sample[[col_name]]
+  x_bar <- mean(sample)
+  s <- sqrt( var(sample) / n)
+  return(c(x_bar, s))
+}
