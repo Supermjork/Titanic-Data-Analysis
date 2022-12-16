@@ -146,13 +146,14 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
   result_df$x_bar_diff <- result_df$x_bar.x - result_df$x_bar.y
   avg_diff <- mean(result_df$x_bar_diff)
 
+  print(paste0("The average difference between ages: ", avg_diff))
+  
   if (avg_diff > 0) {
-    print(paste0("The average difference between ages: ", avg_diff))
     print(paste0("The males were relatively older."))
   } else {
-    print(paste0("The average difference between ages: ", avg_diff))
     print(paste0("The females were relatively older."))
   }
+  
   # Plotting the difference
   result_df %>% ggplot(aes(x = x_bar_diff)) +
                 labs(x = " Mean Difference") +
@@ -170,9 +171,9 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
                           aes(label = paste0("Average difference: ", avg_diff)))
 }
 
-survival_difference <- function(passed_df0, passed_df1) {
+survival_difference <- function(male_df, female_df) {
   # Counting the survivors/non-survivors in each sample in df0
-  count_survival_all0 <- passed_df0 %>% count(Survived == 1)
+  count_survival_all0 <- male_df %>% count(Survived == 1)
   # Getting count of survivors in each sample
   count_survival_true0 <- count_survival_all0[seq(2,
                                                   nrow(count_survival_all0),
@@ -182,7 +183,7 @@ survival_difference <- function(passed_df0, passed_df1) {
                                                    nrow(count_survival_all0),
                                                    2), ]
   # Counting survivors/non-survivors in each sample in df1
-  count_survival_all1 <- passed_df1 %>% count(Survived == 1)
+  count_survival_all1 <- female_df %>% count(Survived == 1)
   # Getting count of survivors in each sample
   count_survival_true1 <- count_survival_all1[seq(2,
                                                   nrow(count_survival_all1),
@@ -199,24 +200,25 @@ survival_difference <- function(passed_df0, passed_df1) {
   has_survived$rescue_diff <- has_survived$n.x - has_survived$n.y
   # Getting an average amount of survivors
   rescue_avg <- mean(has_survived$rescue_diff)
+
+  print(paste0("The difference in survivors on average was: ",
+               ceiling(abs(rescue_avg))))
   if (rescue_avg > 0) {
-    print(paste0("The difference in survivors on average was: ",
-                 ceiling(abs(rescue_avg))))
     print(paste0("With males being rescued more,"))
   } else {
-    print(paste0("The difference in survivors on average was: ",
-                 ceiling(abs(rescue_avg))))
     print(paste0("With females being rescued more."))
   }
   # Survivability percentages from sample, i have no idea so i'll push
   # really simple, trust
-  survival_df0_percentage <- sum(count_survival_true0$n) / sum(count_survival_all0$n)
-  survival_df1_percentage <- sum(count_survival_true1$n) / sum(count_survival_all1$n)
+  survival_df0_percentage <- (sum(count_survival_true0$n) /
+                              sum(count_survival_all0$n)) * 100
+  survival_df1_percentage <- (sum(count_survival_true1$n) /
+                              sum(count_survival_all1$n)) * 100
   print(paste0("Survival Rate for males: ", survival_df0_percentage, "%"))
   print(paste0("Survival Rate for females: ", survival_df1_percentage, "%"))
   # Plotting the difference
   has_survived %>% ggplot(aes(x = rescue_diff)) +
-                   labs(x = "Survival Difference") +
+                   labs(x = "Rescued Difference") +
                    geom_bar(aes(fill = after_stat(count))) +
                    geom_vline(aes(xintercept = rescue_avg),
                               colour = "red",
@@ -228,7 +230,7 @@ survival_difference <- function(passed_df0, passed_df1) {
                              y = Inf,
                              vjust = 1,
                              aes(label = paste0("Average Rescues: ",
-                                                rescue_avg)))
+                                                ceiling(abs(rescue_avg)))))
 }
 
 constant_coeff <- function(sample, constant, coefficient, col_name) {
