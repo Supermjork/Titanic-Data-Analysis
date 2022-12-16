@@ -241,7 +241,7 @@ constant_coeff <- function(sample, constant, coefficient, col_name) {
 }
 
 random_sample <- function(population, sample_size, col_name) {
-  sample <- sample_n(poplation, size = sample_size)
+  sample <- sample_n(population, size = sample_size)
   sample <- sample[[col_name]]
   x_bar <- mean(sample)
   s <- sqrt( var(sample) / n)
