@@ -10,6 +10,7 @@ mme_estimator_bias <- function(population, sample_size, col_name) {
   return(paste0("Estimated Mean: ", estimate_value,
          ", bias: ", estimate_value - true_value))
 }
+
 nll <- function(pars, data) {
   # Extract parameters from the vector
   mu <- pars[1]

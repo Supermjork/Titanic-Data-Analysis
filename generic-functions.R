@@ -196,7 +196,7 @@ survival_difference <- function(passed_df0, passed_df1) {
                                                   2), ]
   
   # Getting count of non-survivors in each sample
-  count_survival_false1 <- count_survival_all1[seq(2,
+  count_survival_false1 <- count_survival_all1[seq(1,
                                                    nrow(count_survival_all1),
                                                    2), ]
   
@@ -223,9 +223,9 @@ survival_difference <- function(passed_df0, passed_df1) {
   
   # Survivability percentages from sample, i have no idea so i'll push
   # really simple, trust
-  survival_df0_percentage <- sum(count_survival_true0$n) / sum(count_survival_false0$n)
+  survival_df0_percentage <- sum(count_survival_true0$n) / sum(count_survival_all0$n)
   
-  survival_df1_percentage <- sum(count_survival_true1$n) / sum(count_survival_false1$n)
+  survival_df1_percentage <- sum(count_survival_true1$n) / sum(count_survival_all1$n)
   
   print(paste0("Survival Rate for males: ", survival_df0_percentage, "%"))
   print(paste0("Survival Rate for females: ", survival_df1_percentage, "%"))
@@ -245,4 +245,17 @@ survival_difference <- function(passed_df0, passed_df1) {
                              vjust = 1,
                              aes(label = paste0("Average Rescues: ",
                                                 rescue_avg)))
+}
+
+constant_coeff <- function(sample, constant, coefficient, col_name) {
+  sample$multiply_coeff <- sample[[col_name]] * coefficient
+  
+  sample$result_x <- sample$multiply_coeff + constant
+  
+  expectation_x <- mean(sample$result_x)
+  
+  variance_x <- var(sample$result_x)
+  
+  print(paste0("E(", {{col_name}}, "): ", expectation_x))
+  print(paste0("V(", {{col_name}}, "): ", variance_x))
 }

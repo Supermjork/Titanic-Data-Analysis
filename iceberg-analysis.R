@@ -163,7 +163,6 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 col_name = Age)
 var_plot_s50 <- sample_var_plot(sample_u1500)
 # Normal Distrib lookin (Actually Chi?)
-
 var_plot_s50
 
 # Estimators time
@@ -216,3 +215,11 @@ survived_female <- titanic_clean %>%
 samplediff_survived15000 <- survival_difference(survived_male, survived_female)
 
 samplediff_survived15000
+
+test_expectation <- titanic_clean %>% sample_n(size = 200)
+
+mean(test_expectation$Age)
+var(test_expectation$Age)
+
+constant_coeff(test_expectation, 5, 1, "Age")
+constant_coeff(test_expectation, 0, 5, "Age")
