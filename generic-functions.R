@@ -244,6 +244,6 @@ random_sample <- function(population, sample_size, col_name) {
   sample <- sample_n(population, size = sample_size)
   sample <- sample[[col_name]]
   x_bar <- mean(sample)
-  s <- sqrt( var(sample) / n)
+  s <- sqrt(var(sample) / sample_size)
   return(c(x_bar, s))
 }
