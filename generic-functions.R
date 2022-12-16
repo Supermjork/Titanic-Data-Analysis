@@ -137,25 +137,22 @@ populus_range <- function(pop_df, pass_step, grouping_column, ranging_column) {
 mean_difference <- function(passed_df0, passed_df1, col_name) {
   # creating dataframes with sample mean of given column
   df0_means <- passed_df0 %>% summarise(x_bar = mean({{col_name}}))
-  
   df1_means <- passed_df1 %>% summarise(x_bar = mean({{col_name}}))
-  
+
   # Merging the dataframes into one chunk
   result_df <- merge(df0_means, df1_means, by = "replicate")
-  
+
   # Getting the difference between the columns
   result_df$x_bar_diff <- result_df$x_bar.x - result_df$x_bar.y
-  
   avg_diff <- mean(result_df$x_bar_diff)
-  
-  if(avg_diff > 0) {
+
+  if (avg_diff > 0) {
     print(paste0("The average difference between ages: ", avg_diff))
     print(paste0("The males were relatively older."))
   } else {
     print(paste0("The average difference between ages: ", avg_diff))
     print(paste0("The females were relatively older."))
   }
-  
   # Plotting the difference
   result_df %>% ggplot(aes(x = x_bar_diff)) +
                 labs(x = " Mean Difference") +
@@ -176,42 +173,33 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
 survival_difference <- function(passed_df0, passed_df1) {
   # Counting the survivors/non-survivors in each sample in df0
   count_survival_all0 <- passed_df0 %>% count(Survived == 1)
-  
   # Getting count of survivors in each sample
   count_survival_true0 <- count_survival_all0[seq(2,
                                                   nrow(count_survival_all0),
                                                   2), ]
-  
   # Getting count of non-survivors in each sample
   count_survival_false0 <- count_survival_all0[seq(1,
                                                    nrow(count_survival_all0),
                                                    2), ]
-  
   # Counting survivors/non-survivors in each sample in df1
   count_survival_all1 <- passed_df1 %>% count(Survived == 1)
-  
   # Getting count of survivors in each sample
   count_survival_true1 <- count_survival_all1[seq(2,
                                                   nrow(count_survival_all1),
                                                   2), ]
-  
   # Getting count of non-survivors in each sample
   count_survival_false1 <- count_survival_all1[seq(1,
                                                    nrow(count_survival_all1),
                                                    2), ]
-  
   # Merging the two count-dfs of survivors
   has_survived <- merge(count_survival_true0,
                         count_survival_true1,
                         by = "replicate")
-  
   # Calculating the difference between survivors count
   has_survived$rescue_diff <- has_survived$n.x - has_survived$n.y
-  
   # Getting an average amount of survivors
   rescue_avg <- mean(has_survived$rescue_diff)
-  
-  if(rescue_avg > 0) {
+  if (rescue_avg > 0) {
     print(paste0("The difference in survivors on average was: ",
                  ceiling(abs(rescue_avg))))
     print(paste0("With males being rescued more,"))
@@ -220,16 +208,12 @@ survival_difference <- function(passed_df0, passed_df1) {
                  ceiling(abs(rescue_avg))))
     print(paste0("With females being rescued more."))
   }
-  
   # Survivability percentages from sample, i have no idea so i'll push
   # really simple, trust
   survival_df0_percentage <- sum(count_survival_true0$n) / sum(count_survival_all0$n)
-  
   survival_df1_percentage <- sum(count_survival_true1$n) / sum(count_survival_all1$n)
-  
   print(paste0("Survival Rate for males: ", survival_df0_percentage, "%"))
   print(paste0("Survival Rate for females: ", survival_df1_percentage, "%"))
-  
   # Plotting the difference
   has_survived %>% ggplot(aes(x = rescue_diff)) +
                    labs(x = "Survival Difference") +
@@ -249,13 +233,9 @@ survival_difference <- function(passed_df0, passed_df1) {
 
 constant_coeff <- function(sample, constant, coefficient, col_name) {
   sample$multiply_coeff <- sample[[col_name]] * coefficient
-  
   sample$result_x <- sample$multiply_coeff + constant
-  
   expectation_x <- mean(sample$result_x)
-  
   variance_x <- var(sample$result_x)
-  
   print(paste0("E(", {{col_name}}, "): ", expectation_x))
   print(paste0("V(", {{col_name}}, "): ", variance_x))
 }

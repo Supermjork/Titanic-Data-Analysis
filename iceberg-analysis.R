@@ -223,3 +223,6 @@ var(test_expectation$Age)
 
 constant_coeff(test_expectation, 5, 1, "Age")
 constant_coeff(test_expectation, 0, 5, "Age")
+# Take a sample of ages size 10 and 50
+sample_age10 <- sample_n(titanic_clean$Age, 10)
+sample_age50 <- sample_n(titanic_clean$Age, 50)
