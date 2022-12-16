@@ -5,12 +5,6 @@ sample_mean <- function(sample_passed, sample_size, sample_reps, col_name) {
                                  replace = TRUE) %>%
     summarise(x_bar = mean({{col_name}}))
 }
-random_sample <- function(population, sample_size, col_name) {
-  sample <- sample_n(poplation[[col_name]], size = sample_size)
-  x_bar <- mean(sample)
-  s <- var(sample)
-  return(c(x_bar, s))
-}
 
 # Another fancy function to plot the samples (Has to be used with above fn)
 sample_mean_plot <- function(passed_sampled_df) {
