@@ -29,7 +29,7 @@ age_fancyplot <- titanic_clean %>% ggplot(aes(x = Age,
                                                   alpha = 0.25,
                                                   position = hist_pos) +
                                    labs(title = "Age mean by genders",
-                                        y = "count")
+                                        y = "count") +
                                    theme(legend.position = leg_pos)
 
   # Shows the mean of ages by gender (Males' mean age, Females' mean age)
