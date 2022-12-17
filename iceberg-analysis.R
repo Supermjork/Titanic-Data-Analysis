@@ -229,3 +229,7 @@ age_sample50 <- random_sample(titanic_clean, 50, "Age")
 source("intervals.R")
 conf_interval2(age_sample10, 10)
 conf_interval2(age_sample50, 10)
+source("fare-functions.R")
+juan_plot
+dos_plot
+tres_plot
