@@ -1,14 +1,18 @@
 # This poopoohead takes strings poggers
-mme_estimator_bias <- function(population, sample_size, col_name) {
+mme_estimator <- function(population, sample_size, col_name) {
   # Getting the population mean, mu
-  true_value <- mean(population[[col_name]])
+  true_mean <- mean(population[[col_name]])
   # Gathering a sample
-  sample_mean <- sample_n(population, size = sample_size)
+  sample <- sample_n(population, size = sample_size)
   # Calculating the mean of said gathered sample
-  estimate_value <- mean(sample_mean[[col_name]])
+  estimate_mean_value <- mean(sample_mean[[col_name]])
+  estimate_var_value <- var(sample_mean[[col_name]])
+  
+  bias <- estimate_mean_value - true_mean
   # Gives the bias of the estimator (Not absolute)
-  return(paste0("Estimated Mean: ", estimate_value,
-         ", bias: ", estimate_value - true_value))
+  paste0("Estimated Mean: ", estimate_value,
+         ", bias: ", estimate_value - true_mean,
+         ", Mean squared Error: ", (estimate_var_value + bias^2))
 }
 
 nll <- function(pars, data) {
@@ -19,10 +23,22 @@ nll <- function(pars, data) {
   nll <-  -sum(dnorm(x = data, mean = mu, sd = sigma, log = TRUE))
 }
 
-mle_estimator_bias <- function(population, sample_size, col_name) {
+mle_estimator <- function(population, sample_size, col_name) {
   # Will write later (Later is now)
   sample <- sample_n(population, size = sample_size)
   return(optim(par = c(mu = 10, sigma = 12),
-  fn = nll, data = sample[[col_name]],
-  control = list(parscale = c(mu = 10, sigma = 12))))
+               fn = nll, data = sample[[col_name]],
+               control = list(parscale = c(mu = 10, sigma = 12))))
+}
+
+mean_square_error <- function(sample, size, col_name, pass_population) {
+  mle_estimated_values <- mle_estimator(pass_populuation, size, col_name)
+  
+  estimated_mean <- mle_estimated_values$pars[1]
+  estimated_var <- mle_estimated_values$pars[2]
+  
+  true_mean <- mean(pass_population[[col_name]])
+  
+  bias <- estimated_mean - true_mean
+  mse <- estimated_var + bias^2
 }

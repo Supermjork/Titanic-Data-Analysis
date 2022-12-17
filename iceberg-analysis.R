@@ -178,9 +178,9 @@ mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
                                             col_name = "Age")
 mme_age_sample50_bias
 #MLE
-mle_age_sample50 <- mle_estimator_bias(population = titanic_clean,
-                                           sample_size = 50,
-                                            col_name = "Age")
+mle_age_sample50 <- mle_estimator(population = titanic_clean,
+                                  sample_size = 50,
+                                  col_name = "Age")
 mle_age_sample50$par
 
 
