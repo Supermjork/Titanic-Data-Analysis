@@ -55,9 +55,8 @@ age_plot_text <- geom_text(data = age_mean_gender,
                            aes(x = mean,
                                y = Inf,
                                vjust = 1,
-                               hjust = "inward",
                                label = paste0("Estimated Mean for ", Sex,
-                                              " Age: ", mean)),
+                                              " Age: ", signif(mean, 5))),
                            show.legend = FALSE,
                            colour = "black")
 

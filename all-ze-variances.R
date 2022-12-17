@@ -14,7 +14,7 @@ sample_var_plot <- function(passed_sampled_df) {
   # Plotting the variance's distribution
   passed_sampled_df %>% ggplot(aes(x = s_squared)) +
                         labs(title = deparse(substitute(passed_sampled_df))) +
-                        geom_histogram(binwidth = 0.25,
+                        geom_histogram(binwidth = 5,
                                        aes(fill = after_stat(count))) +
                         scale_fill_continuous(high = "#003b94",
                                               low = "#6ac2eb") +
@@ -27,5 +27,6 @@ sample_var_plot <- function(passed_sampled_df) {
                                   vjust = 1,
                                   hjust = "inward",
                                   aes(label = paste("Estimated Variance = ",
-                                                    sample_variance_exp)))
+                                                    signif(sample_variance_exp,
+                                                           8))))
 }

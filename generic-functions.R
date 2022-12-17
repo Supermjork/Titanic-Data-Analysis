@@ -26,7 +26,7 @@ sample_mean_plot <- function(passed_sampled_df) {
                                   vjust = 1,
                                   hjust = "inward",
                                   aes(label = paste("Estimated mean = ",
-                                                    mean_of_mean)))
+                                                    signif(mean_of_mean, 8))))
 }
 
 # The function above But WAYYY BETTER
@@ -53,7 +53,7 @@ sample_plot_mean <- function(sample_df,
                              vjust = 1,
                              hjust = "inward",
                              aes(label = paste("Estimated mean = ",
-                                               mean(x_bar))))
+                                               signif(mean(x_bar), 8))))
 }
 
 # Function to save plots, will take the plot variable as first argument (pipe)
@@ -168,7 +168,8 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
                 geom_text(x = avg_diff,
                           y = Inf,
                           vjust = 1,
-                          aes(label = paste0("Average difference: ", avg_diff)))
+                          aes(label = paste0("Average difference: ",
+                                             signif(avg_diff, 6))))
 }
 
 survival_difference <- function(male_df, female_df) {
@@ -214,8 +215,10 @@ survival_difference <- function(male_df, female_df) {
                               sum(count_survival_all0$n)) * 100
   survival_df1_percentage <- (sum(count_survival_true1$n) /
                               sum(count_survival_all1$n)) * 100
-  print(paste0("Survival Rate for males: ", survival_df0_percentage, "%"))
-  print(paste0("Survival Rate for females: ", survival_df1_percentage, "%"))
+  print(paste0("Survival Rate for males: ",
+               signif(survival_df0_percentage, 6), "%"))
+  print(paste0("Survival Rate for females: ",
+               signif(survival_df1_percentage, 6), "%"))
   # Plotting the difference
   has_survived %>% ggplot(aes(x = rescue_diff)) +
                    labs(x = "Rescued Difference") +
@@ -233,13 +236,13 @@ survival_difference <- function(male_df, female_df) {
                                                 ceiling(abs(rescue_avg)))))
 }
 
-constant_coeff <- function(sample, constant, coefficient, col_name) {
+constant_coeff <- function(sample, constant = 1, coefficient = 0, col_name) {
   sample$multiply_coeff <- sample[[col_name]] * coefficient
   sample$result_x <- sample$multiply_coeff + constant
   expectation_x <- mean(sample$result_x)
   variance_x <- var(sample$result_x)
-  print(paste0("E(", {{col_name}}, "): ", expectation_x))
-  print(paste0("V(", {{col_name}}, "): ", variance_x))
+  print(paste0("E(", {{col_name}}, "): ", signif(expectation_x, 8)))
+  print(paste0("V(", {{col_name}}, "): ", signif(variance_x, 10)))
 }
 
 random_sample <- function(population, sample_size, col_name) {

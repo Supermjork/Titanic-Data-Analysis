@@ -12,7 +12,11 @@ conf_interval <- function(x_bar, s, n, confidence) {
   margin <- qt(confidence, df = n - 1) * s / sqrt(n)
   lowerinterval <- x_bar - margin
   upperinterval <- x_bar + margin
-  print(paste0("Interval is: [", lowerinterval, ", ", upperinterval, "]"))
+  print(paste0("Interval is: [",
+               signif(lowerinterval, 6),
+               ", ",
+               signif(upperinterval, 6),
+               "]"))
   return(c(lowerinterval, upperinterval))
 }
 # Same as conf_interval but takes a vector for x_bar and s
@@ -30,6 +34,10 @@ conf_interval2 <- function(vec, n, confidence = 0.95) {
   margin <- qt(confidence, df = n - 1) * s / sqrt(n)
   lowerinterval <- x_bar - margin
   upperinterval <- x_bar + margin
-  print(paste0("Interval is: [", lowerinterval, ", ", upperinterval, "]"))
+  print(paste0("Interval is: [",
+               signif(lowerinterval, 6),
+               ", ",
+               signif(upperinterval, 6),
+               "]"))
   return(c(lowerinterval, upperinterval))
 }
