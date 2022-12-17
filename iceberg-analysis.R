@@ -233,3 +233,5 @@ source("fare-functions.R")
 juan_plot
 dos_plot
 tres_plot
+fare_total <- fare_populus(titanic_clean)
+fare_total

@@ -1,80 +1,114 @@
 # This will regard functions about Fare
-library(ggplot2)
 fare_grouped <- titanic_clean %>% group_by(Pclass)
 fare_mean_class <- fare_grouped %>%
                     summarise_at(vars(Fare),
                                  list(mean = mean))
-hist_pos <- "dodge"
-leg_pos <- "right"
+
 fare_group_juan <- fare_grouped %>% filter(Pclass == 1)
+juan_mean <- mean(fare_group_juan$Fare)
+
 fare_group_dos <- fare_grouped %>% filter(Pclass == 2)
+dos_mean <- mean(fare_group_dos$Fare)
+
 fare_group_tres <- fare_grouped %>% filter(Pclass == 3)
-# This code sucks
-fare_fancyplot <- fare_grouped %>%
-                  ggplot(aes(x = Fare,
-                             color = as.character(Pclass),
-                             fill = as.character(Pclass))) +
-                  geom_histogram(binwidth = 1,
-                                 alpha = 0.25,
-                                 position = hist_pos) +
-                  labs(title = "Fare Price by Class",
-                       y = "count") +
-                  theme(legend.position = leg_pos)
+tres_mean <- mean(fare_group_tres$Fare)
 
-fare_fancyplot
+# Put gradient colours for the plots (Preferably all different)
+populus_colour_high <- "#"
+populus_colour_low <- "#"
+
+juan_colour_high <- "#"
+juan_colour_low <- "#"
+
+dos_colour_high <- "#"
+dos_colour_low <- "#"
+
+tres_colour_high <- "#"
+tres_colour_low <- "#"
+
 #Some sing bettar my friend )))
-juan_plot <- ggplot(data = fare_group_juan,
-                    aes(x = Fare, color = as.character(Pclass),
-                    fill = as.character(Pclass))) +
-            geom_histogram(binwidth = 1,
-                           alpha = 0.25,
-                          position = hist_pos) +
-            labs(title = "Fare Price in Class 1",
-          y = "count") +
-          theme(legend.position = leg_pos)
-dos_plot <- ggplot(data = fare_group_dos,
-                    aes(x = Fare, color = as.character(Pclass),
-                    fill = as.character(Pclass))) +
-            geom_histogram(binwidth = 1,
-                           alpha = 0.25,
-                          position = hist_pos) +
-            labs(title = "Fare Price in Class 2",
-          y = "count") +
-          theme(legend.position = leg_pos)
-tres_plot <- ggplot(data = fare_group_tres,
-                    aes(x = Fare, color = as.character(Pclass),
-                    fill = as.character(Pclass))) +
-            geom_histogram(binwidth = 1,
-                           alpha = 0.25,
-                          position = hist_pos) +
-            labs(title = "Fare Price in Class 3",
-          y = "count") +
-          theme(legend.position = leg_pos)
+fare_populus <- function(pop_df) {
+  fare_mean <- mean(pop_df$Fare)
+  
+  pop_df %>% ggplot(aes(x = Fare)) +
+             labs(title = "Population's Fare Plot",
+                  x = "Fare") +
+             scale_fill_continuous(high = populus_colour_high,
+                                   low = populus_colour_low) +
+             geom_histogram(binwidth = 1,
+                            aes(fill = after_stat(count))) +
+             geom_vline(aes(xintercept = fare_mean),
+                        colour = "red",
+                        linetype = "dashed",
+                        linewidth = 1) +
+             geom_text(x = fare_mean,
+                       y = Inf,
+                       vjust = 1,
+                       hjust = "inward",
+                       aes(label = paste("Estimated Mean = ",
+                                         signif(fare_mean,
+                                                8))))
+}
 
-class_mean_fare <- geom_vline(data = fare_mean_class,
-                              aes(xintercept = mean,
-                                  colour = as.character(Pclass)),
-                              linetype = "dashed",
-                              linewidth = 1)
+juan_plot <- fare_group_juan %>% ggplot(aes(x = Fare,
+                                            fill = after_stat(count))) +
+                                 geom_histogram(binwidth = 1) +
+                                 labs(title = "Fare Price in Class 1") +
+                                 scale_fill_continuous(high = juan_colour_high,
+                                                       low = juan_colour_low) +
+                                 theme(legend.position = "right") +
+                                 geom_vline(aes(xintercept = juan_mean),
+                                            colour = "red",
+                                            linetype = "dashed",
+                                            linewidth = 1) +
+                                 geom_text(x = juan_mean,
+                                           y = Inf,
+                                           vjust = 1,
+                                           hjust = "inward",
+                                           aes(label = paste("Estimated Mean = ",
+                                                             signif(juan_mean,
+                                                                    8))))
 
-fare_absmean <- geom_vline(aes(xintercept = mean(Fare)),
-                             colour = "red",
-                             linetype = "dashed",
-                             linewidth = 1)
+dos_plot <- fare_group_dos %>% ggplot(aes(x = Fare,
+                                      fill = after_stat(count))) +
+                               geom_histogram(binwidth = 1) +
+                               labs(title = "Fare Price in Class 2") +
+                               scale_fill_continuous(high = dos_colour_high,
+                                                     low = dos_colour_low) +
+                               theme(legend.position = "right") +
+                               geom_vline(aes(xintercept = dos_mean),
+                                          colour = "red",
+                                          linetype = "dashed",
+                                          linewidth = 1) +
+                               geom_text(x = dos_mean,
+                                         y = Inf,
+                                         vjust = 1,
+                                         hjust = "inward",
+                                         aes(label = paste("Estimated Mean = ",
+                                                           signif(dos_mean,
+                                                                  8))))
 
-fare_plot_grid <- facet_rep_grid(as.character(Pclass) ~ ., scales = "free",
-                                repeat.tick.labels = TRUE)
+tres_plot <- fare_group_tres %>% ggplot(aes(x = Fare,
+                                            fill = after_stat(count))) +
+                                 geom_histogram(binwidth = 1) +
+                                 labs(title = "Fare Price in Class 3") +
+                                 scale_fill_continuous(high = tres_colour_high,
+                                                       low = tres_colour_low) +
+                                 theme(legend.position = "right") + 
+                                 geom_vline(aes(xintercept = tres_mean),
+                                            colour = "red",
+                                            linetype = "dashed",
+                                            linewidth = 1) +
+                                 geom_text(x = tres_mean,
+                                           y = Inf,
+                                           vjust = 1,
+                                           hjust = "inward",
+                                           aes(label = paste("Estimated Mean = ",
+                                                             signif(tres_mean,
+                                                                    8))))
 
-fare_fancyplot + fare_plot_grid
-
-fare_plot_text <- geom_text(data = fare_mean_class,
-                           aes(x = mean,
-                               y = Inf,
-                               vjust = 1,
-                               label = paste0("Estimated Mean for class",
-                                              Pclass,
-                                              " Fare: ", signif(mean, 5))),
-                           show.legend = FALSE,
-                           colour = "black")
-
-fare_fancyplot + list(fare_mean_class, fare_plot_grid, fare_plot_text)
+combining_plots <- ggarrange(juan_plot,
+                             dos_plot,
+                             tres_plot,
+                             nrow = 3, ncol = 1)
+combining_plots
