@@ -173,7 +173,7 @@ var_plot_s50
 
   # MME
 source("estimations.R")
-mme_age_sample50_bias <- mme_estimator_bias(population = titanic_clean,
+mme_age_sample50_bias <- mme_estimator(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
 mme_age_sample50_bias
@@ -235,3 +235,41 @@ dos_plot
 tres_plot
 fare_total <- fare_populus(titanic_clean)
 fare_total
+
+
+# Testing
+var_sample_test <- rep_sample_n(titanic_clean, size = 1000, replace = TRUE)
+
+var_sample_result <- var(var_sample_test$Age)
+var_sample_result
+
+var(titanic_clean$Age)
+
+# Sample to test methods to do the mean thingy
+test_sample <- rep_sample_n(titanic_clean, size = 100, replace = TRUE)
+
+# True mean
+mean_est <- mean(titanic_clean$Age)
+
+# Sample mean
+mean_sample <- mean(mme_test_sample$Age)
+
+# True Variance
+var_est <- var(titanic_clean$Age)
+
+# Sample variance method 1
+var_sample_1 <- (mean(titanic_clean$Age^2) - mean_est^2)
+
+# Sample variance method 2
+var_sample_2 <- var(mme_test_sample$Age)
+
+mean_est
+mean_sample
+
+var_est
+var_sample_1
+var_sample_2
+
+# They different
+mean(titanic_clean$Age^2)
+mean(titanic_clean$Age)^2

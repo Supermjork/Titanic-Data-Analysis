@@ -5,14 +5,14 @@ mme_estimator <- function(population, sample_size, col_name) {
   # Gathering a sample
   sample <- sample_n(population, size = sample_size)
   # Calculating the mean of said gathered sample
-  estimate_mean_value <- mean(sample_mean[[col_name]])
-  estimate_var_value <- var(sample_mean[[col_name]])
+  estimated_mean_value <- mean(sample[[col_name]])
+  estimated_var_value <- var(sample[[col_name]])
   
-  bias <- estimate_mean_value - true_mean
+  bias <- estimated_mean_value - true_mean
   # Gives the bias of the estimator (Not absolute)
-  paste0("Estimated Mean: ", estimate_value,
-         ", bias: ", estimate_value - true_mean,
-         ", Mean squared Error: ", (estimate_var_value + bias^2))
+  paste0("Estimated Mean: ", estimated_mean_value,
+         ", bias: ", bias,
+         ", Mean squared Error: ", (estimated_var_value + bias^2))
 }
 
 nll <- function(pars, data) {
@@ -34,8 +34,8 @@ mle_estimator <- function(population, sample_size, col_name) {
 mean_square_error <- function(sample, size, col_name, pass_population) {
   mle_estimated_values <- mle_estimator(pass_populuation, size, col_name)
   
-  estimated_mean <- mle_estimated_values$pars[1]
-  estimated_var <- mle_estimated_values$pars[2]
+  mle_estimated_mean <- mle_estimated_values$pars[1]
+  mle_estimated_var <- mle_estimated_values$pars[2]
   
   true_mean <- mean(pass_population[[col_name]])
   
