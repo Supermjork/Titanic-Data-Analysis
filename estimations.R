@@ -44,12 +44,25 @@ mean_square_error <- function(mle_values, mme_values, population, col_name) {
   mle_bias <- mle_estimated_mean - true_mean
   mle_mse <- mle_estimated_var + mle_bias^2
 
-  mme_mse <- mme_estimated_mean - true_mean
+  mme_bias <- mme_estimated_mean - true_mean
   mme_mse <- mme_estimated_var + mme_bias^2
-  if (mle_mse < mme_mse) {
+  print("MME MSE")
+  mme_mse
+  print("MLE MSE")
+  mle_mse
+  mse_diff <- mle_mse - mme_mse
+  if (mse_diff < 0) {
    print("The MLE is much better )))))))))))")
-  }else if (mle_mse > mme_mse) {
+  }else if (mse_diff > 0) {
    print("The MME is much better )))))))))))")
+  } else {
+    print("they are the same picture")
   }
+  return(c(mme = mme_mse, mle = mle_mse))
 
+}
+calc_mse <- function(est_mean, est_var, true_mean) {
+  bias <- est_mean - true_mean
+  mse <- est_var + (bias)^2
+  return(mse)
 }
