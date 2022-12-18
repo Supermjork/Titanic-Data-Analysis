@@ -241,4 +241,3 @@ tres_plot
 
 fare_total <- fare_populus(titanic_clean)
 fare_total
-
