@@ -10,9 +10,10 @@ mme_estimator <- function(population, sample_size, col_name) {
 
   bias <- estimated_mean_value - true_mean
   # Gives the bias of the estimator (Not absolute)
-  paste0("Estimated Mean: ", estimated_mean_value,
+  print(paste0("Estimated Mean: ", estimated_mean_value,
          ", bias: ", bias,
-         ", Mean squared Error: ", (estimated_var_value + bias^2))
+         ", Mean squared Error: ", (estimated_var_value + bias^2)))
+  return(c(estimated_mean_value, estimated_var_value))
 }
 
 nll <- function(pars, data) {
@@ -31,14 +32,24 @@ mle_estimator <- function(population, sample_size, col_name) {
                control = list(parscale = c(mu = 10, sigma = 12))))
 }
 
-mean_square_error <- function(sample, size, col_name, pass_population) {
-  mle_estimated_values <- mle_estimator(pass_populuation, size, col_name)
+mean_square_error <- function(mle_values, mme_values, population, col_name) {
+  mle_estimated_mean <- mle_values$pars[1]
+  mle_estimated_var <- mle_values$pars[2]
 
-  mle_estimated_mean <- mle_estimated_values$pars[1]
-  mle_estimated_var <- mle_estimated_values$pars[2]
+  mme_estimated_mean <- mme_values[1]
+  mme_estimated_var <- mme_values[2]
 
-  true_mean <- mean(pass_population[[col_name]])
+  true_mean <- mean(population[[col_name]])
 
-  bias <- estimated_mean - true_mean
-  mse <- estimated_var + bias^2
+  mle_bias <- mle_estimated_mean - true_mean
+  mle_mse <- mle_estimated_var + mle_bias^2
+
+  mme_bias <- mme_estimated_mean - true_mean
+  mme_mse <- mme_estimated_var + mme_bias^2
+  if (mle_mse < mme_mse) {
+   print("The MLE is much better )))))))))))")
+  }else if (mle_mse > mme_mse) {
+   print("The MME is much better )))))))))))")
+  }
+
 }

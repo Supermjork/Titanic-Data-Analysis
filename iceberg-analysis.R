@@ -173,15 +173,16 @@ var_plot_s50
 
   # MME
 source("estimations.R")
-mme_age_sample50_bias <- mme_estimator(population = titanic_clean,
+mme_age_sample50 <- mme_estimator(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
-mme_age_sample50_bias
+mme_age_sample50$pars
 #MLE
 mle_age_sample50 <- mle_estimator(population = titanic_clean,
                                   sample_size = 50,
                                   col_name = "Age")
 mle_age_sample50$par
+mean_square_error(mle_age_sample50, mme_age_sample50, titanic_clean, "Age")
 
 
 # Q21 time
@@ -223,15 +224,21 @@ var(test_expectation$Age)
 
 constant_coeff(test_expectation, 5, 1, "Age")
 constant_coeff(test_expectation, 0, 5, "Age")
+
 # Take a sample of ages size 10 and 50
 age_sample10 <- random_sample(titanic_clean, 10, "Age")
 age_sample50 <- random_sample(titanic_clean, 50, "Age")
+
 source("intervals.R")
 conf_interval2(age_sample10, 10)
 conf_interval2(age_sample50, 10)
+
 source("fare-functions.R")
+
 juan_plot
 dos_plot
 tres_plot
+
 fare_total <- fare_populus(titanic_clean)
 fare_total
+
