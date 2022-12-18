@@ -147,17 +147,17 @@ mean_difference <- function(passed_df0, passed_df1, col_name) {
   avg_diff <- mean(result_df$x_bar_diff)
 
   print(paste0("The average difference between ages: ", avg_diff))
-  
+
   if (avg_diff > 0) {
     print(paste0("The males were relatively older."))
   } else {
     print(paste0("The females were relatively older."))
   }
-  
+
   # Plotting the difference
   result_df %>% ggplot(aes(x = x_bar_diff)) +
                 labs(x = " Mean Difference") +
-                geom_histogram(binwidth = 0.25, 
+                geom_histogram(binwidth = 0.25,
                                aes(fill = after_stat(count))) +
                 geom_vline(aes(xintercept = avg_diff),
                            colour = "red",
