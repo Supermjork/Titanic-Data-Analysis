@@ -44,7 +44,7 @@ mean_square_error <- function(mle_values, mme_values, population, col_name) {
   mle_bias <- mle_estimated_mean - true_mean
   mle_mse <- mle_estimated_var + mle_bias^2
 
-  mme_bias <- mme_estimated_mean - true_mean
+  mme_mse <- mme_estimated_mean - true_mean
   mme_mse <- mme_estimated_var + mme_bias^2
   if (mle_mse < mme_mse) {
    print("The MLE is much better )))))))))))")
