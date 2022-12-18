@@ -14,17 +14,17 @@ fare_group_tres <- fare_grouped %>% filter(Pclass == 3)
 tres_mean <- mean(fare_group_tres$Fare)
 
 # Put gradient colours for the plots (Preferably all different)
-populus_colour_high <- "#2962ff"
-populus_colour_low <- "#006eeb"
+populus_colour_high <- "#0841c7"
+populus_colour_low <- "#3ea9de"
 
-juan_colour_high <- "#9d0006"
-juan_colour_low <- "#cc241d"
+juan_colour_high <- "#75130c"
+juan_colour_low <- "#f22213"
 
-dos_colour_high <- "#8f3f71"
-dos_colour_low <- "#b16286"
+dos_colour_high <- "#3c1280"
+dos_colour_low <- "#703fbf"
 
-tres_colour_high <- "#b57614"
-tres_colour_low <- "#d79921"
+tres_colour_high <- "#a63808"
+tres_colour_low <- "#ed8f37"
 
 #Some sing bettar my friend )))
 fare_populus <- function(pop_df) {
