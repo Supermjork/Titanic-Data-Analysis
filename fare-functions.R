@@ -14,17 +14,17 @@ fare_group_tres <- fare_grouped %>% filter(Pclass == 3)
 tres_mean <- mean(fare_group_tres$Fare)
 
 # Put gradient colours for the plots (Preferably all different)
-populus_colour_high <- "#"
-populus_colour_low <- "#"
+populus_colour_high <- "#213412"
+populus_colour_low <- "#4412ff"
 
-juan_colour_high <- "#"
-juan_colour_low <- "#"
+juan_colour_high <- "#331f21"
+juan_colour_low <- "#aaf23e"
 
-dos_colour_high <- "#"
-dos_colour_low <- "#"
+dos_colour_high <- "#312344"
+dos_colour_low <- "#ffebc2"
 
-tres_colour_high <- "#"
-tres_colour_low <- "#"
+tres_colour_high <- "#12334f"
+tres_colour_low <- "#fcdf1a"
 
 #Some sing bettar my friend )))
 fare_populus <- function(pop_df) {
@@ -50,9 +50,9 @@ fare_populus <- function(pop_df) {
                                                 8))))
 }
 
-juan_plot <- fare_group_juan %>% ggplot(aes(x = Fare,
-                                            fill = after_stat(count))) +
-                                 geom_histogram(binwidth = 1) +
+juan_plot <- fare_group_juan %>% ggplot(aes(x = Fare)) +
+                                 geom_histogram(binwidth = 1,
+                                                aes(fill = after_stat(count))) +
                                  labs(title = "Fare Price in Class 1") +
                                  scale_fill_continuous(high = juan_colour_high,
                                                        low = juan_colour_low) +
@@ -69,9 +69,9 @@ juan_plot <- fare_group_juan %>% ggplot(aes(x = Fare,
                                                              signif(juan_mean,
                                                                     8))))
 
-dos_plot <- fare_group_dos %>% ggplot(aes(x = Fare,
-                                      fill = after_stat(count))) +
-                               geom_histogram(binwidth = 1) +
+dos_plot <- fare_group_dos %>% ggplot(aes(x = Fare)) +
+                               geom_histogram(binwidth = 1,
+                                              aes(fill = after_stat(count))) +
                                labs(title = "Fare Price in Class 2") +
                                scale_fill_continuous(high = dos_colour_high,
                                                      low = dos_colour_low) +
@@ -88,9 +88,9 @@ dos_plot <- fare_group_dos %>% ggplot(aes(x = Fare,
                                                            signif(dos_mean,
                                                                   8))))
 
-tres_plot <- fare_group_tres %>% ggplot(aes(x = Fare,
-                                            fill = after_stat(count))) +
-                                 geom_histogram(binwidth = 1) +
+tres_plot <- fare_group_tres %>% ggplot(aes(x = Fare)) +
+                                 geom_histogram(binwidth = 1,
+                                                aes(fill = after_stat(count))) +
                                  labs(title = "Fare Price in Class 3") +
                                  scale_fill_continuous(high = tres_colour_high,
                                                        low = tres_colour_low) +
