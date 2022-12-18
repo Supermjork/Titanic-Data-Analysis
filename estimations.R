@@ -34,8 +34,8 @@ mle_estimator <- function(population, sample_size, col_name) {
 
 mean_square_error <- function(mle_values, mme_values, population, col_name) {
   # WHY DOIES THIS NEED TWO SAUQIUARE BRAL<KCKET?!S?!
-  mle_estimated_mean <- mle_values$pars[[1]]
-  mle_estimated_var <- mle_values$pars[[2]]
+  mle_estimated_mean <- mle_values$par[[1]]
+  mle_estimated_var <- mle_values$par[[2]]
 
   mme_estimated_mean <- mme_values[1]
   mme_estimated_var <- mme_values[2]
@@ -64,6 +64,6 @@ mean_square_error <- function(mle_values, mme_values, population, col_name) {
 }
 calc_mse <- function(est_mean, est_var, true_mean) {
   bias <- est_mean - true_mean
-  mse <- est_var + (est_bias)^2
+  mse <- est_var + (bias)^2
   return(mse)
 }
