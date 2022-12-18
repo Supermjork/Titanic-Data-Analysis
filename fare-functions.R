@@ -29,7 +29,7 @@ tres_colour_low <- "#fcdf1a"
 #Some sing bettar my friend )))
 fare_populus <- function(pop_df) {
   fare_mean <- mean(pop_df$Fare)
-  
+
   pop_df %>% ggplot(aes(x = Fare)) +
              labs(title = "Population's Fare Plot",
                   x = "Fare") +
@@ -94,7 +94,7 @@ tres_plot <- fare_group_tres %>% ggplot(aes(x = Fare)) +
                                  labs(title = "Fare Price in Class 3") +
                                  scale_fill_continuous(high = tres_colour_high,
                                                        low = tres_colour_low) +
-                                 theme(legend.position = "right") + 
+                                 theme(legend.position = "right") +
                                  geom_vline(aes(xintercept = tres_mean),
                                             colour = "red",
                                             linetype = "dashed",
