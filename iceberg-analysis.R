@@ -176,7 +176,7 @@ source("estimations.R")
 mme_age_sample50 <- mme_estimator(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
-mme_age_sample50$pars
+mme_age_sample50
 #MLE
 mle_age_sample50 <- mle_estimator(population = titanic_clean,
                                   sample_size = 50,

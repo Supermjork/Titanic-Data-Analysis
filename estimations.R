@@ -33,8 +33,8 @@ mle_estimator <- function(population, sample_size, col_name) {
 }
 
 mean_square_error <- function(mle_values, mme_values, population, col_name) {
-  mle_estimated_mean <- mle_values[1]
-  mle_estimated_var <- mle_values[2]
+  mle_estimated_mean <- mle_values$pars[1]
+  mle_estimated_var <- mle_values$pars[2]
 
   mme_estimated_mean <- mme_values[1]
   mme_estimated_var <- mme_values[2]
