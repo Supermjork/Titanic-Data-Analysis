@@ -3,18 +3,7 @@
 #       might also help to "beautify" the plots into more eye-pleasing
 #       graphs, without compromising anything of importance
 
-library(statsr)
-library(dplyr)
-library(ggplot2)
-library(tidyverse)
-library(lemon)
-library(ggpubr)
-
-source("generic-functions.R")
-
-# Loading the csv with passenger data into "titanic" data frame
-  # Main dataset
-titanic <- read.csv("dataset/train.csv")
+source("init.R")
 
 # Couting passengers which embark from certain areas
 # S: Southampton, Q: Queenstown, C: Cherbourg
@@ -58,9 +47,6 @@ matrix_rows <- c("Minimum Value",
                  "Sigma Population",
                  "Inter Quantile Range")
 
-# Sourcing the matrix function
-source("based-matrix.R")
-
 # Testing on NA-filled population
 titanic %>% matrix_summary(summary_columns = matrix_columns,
                            summary_functions = matrix_functions,
@@ -83,8 +69,7 @@ na_in_df
 age_range_by_gender <- populus_range(titanic_clean, 10, "Sex", "Age")
 age_range_by_gender
 
-source("fare-functions.R")
-
+# Fare related info/plots
 juan_plot
 dos_plot
 tres_plot
@@ -101,8 +86,6 @@ fare_total
 
 # Plotting the population's ages (Must pick environment variables from
 # age-functions.R and insert into list (i.e. layers on top of basic graph))
-source("age-functions.R")
-
 age_fancyplot_gender + list(gender_mean_age,
                             age_plot_sex_grid,
                             age_plot_gender_text)
@@ -189,14 +172,14 @@ combined_plot_size50 <- ggarrange(plotlist = means_50all_combined,
 
 combined_plot_size50
 
-source("all-ze-variances.R")
+# Variance stuff
 sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_size = 2,
                                 sample_reps = 1500,
                                 col_name = Age)
 var_plot_s2 <- sample_var_plot(sample_u1500)
 
-# This my friend looks like a chi tho
+# This my friend looks like a chi tho (it do, chi of 1)
 var_plot_s2
 
 sample_u1500 <- sample_variance(sample_passed = titanic_clean,
@@ -204,7 +187,7 @@ sample_u1500 <- sample_variance(sample_passed = titanic_clean,
                                 sample_reps = 1500,
                                 col_name = Age)
 var_plot_s50 <- sample_var_plot(sample_u1500)
-# Normal Distrib lookin (Actually Chi?)
+# Normal Distrib lookin (Actually Chi?) (yeeee chi of 49 lmao)
 var_plot_s50
 
 # Estimators time
@@ -214,7 +197,6 @@ var_plot_s50
 # mme_age_sample50_bias <- mme_age_sample50 - mean(titanic$Age)
 
   # MME
-source("estimations.R")
 mme_age_sample50 <- mme_estimator(population = titanic_clean,
                                             sample_size = 50,
                                             col_name = "Age")
@@ -272,6 +254,6 @@ constant_coeff(test_expectation, 0, 5, "Age")
 age_sample10 <- random_sample(titanic_clean, 10, "Age")
 age_sample50 <- random_sample(titanic_clean, 50, "Age")
 
-source("intervals.R")
+# Confidence Intervals
 conf_interval2(age_sample10, 10)
 conf_interval2(age_sample50, 10)
