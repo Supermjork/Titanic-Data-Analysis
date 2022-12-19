@@ -7,6 +7,11 @@ age_mean_gender <- titanic_clean %>%
                    summarise_at(vars(Age),
                                 list(mean = mean))
 
+age_mean_embark <- titanic_clean %>%
+                   group_by(Embarked) %>%
+                   summarise_at(vars(Age),
+                                list(mean = mean))
+
 # Setting position to dodge to have the lines beside
 # each other instead of overlapping (tinker around binwidth)
 # Used it over "stack" to show true count of people at age
@@ -22,16 +27,27 @@ leg_pos <- "right"
 # Shows absolute mean AND Trying to show mean for either genders
 
   # The basic (allegedly) plot with ages shown by gender and legend
-age_fancyplot <- titanic_clean %>% ggplot(aes(x = Age,
-                                              color = Sex,
-                                              fill = Sex)) +
-                                   geom_histogram(binwidth = 1,
-                                                  alpha = 0.25,
-                                                  position = hist_pos) +
-                                   labs(title = "Age mean by genders",
-                                        y = "count") +
-                                   theme(legend.position = leg_pos)
+age_fancyplot_gender <- titanic_clean %>%
+                        ggplot(aes(x = Age,
+                                   color = Sex,
+                                   fill = Sex)) +
+                        geom_histogram(binwidth = 1,
+                                       alpha = 0.25,
+                                       position = hist_pos) +
+                        labs(title = "Age mean by genders",
+                             y = "count") +
+                        theme(legend.position = leg_pos)
 
+age_fancyplot_location <- titanic_clean %>%
+                          ggplot(aes(x = age,
+                                     colour = Embarked,
+                                     fill = Embarked)) +
+                          geom_histogram(binwidth = 1,
+                                         alpha = 0.25,
+                                         position = hist_pos) +
+                          labs(title = "Age mean by Embarked Location",
+                               y = "count") +
+                          theme(legend.position = leg_pos)
   # Shows the mean of ages by gender (Males' mean age, Females' mean age)
 gender_mean_age <- geom_vline(data = age_mean_gender,
                               aes(xintercept = mean,

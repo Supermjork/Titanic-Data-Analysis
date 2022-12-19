@@ -16,6 +16,26 @@ source("generic-functions.R")
   # Main dataset
 titanic <- read.csv("dataset/train.csv")
 
+# Couting passengers which embark from certain areas
+# S: Southampton, Q: Queenstown, C: Cherbourg
+embarked_s <- colSums(titanic == "S")
+embarked_s
+
+embarked_q <- colSums(titanic == "Q")
+embarked_q
+
+embarked_c <- colSums(titanic == "C")
+embarked_c
+
+embarked_s_percent <- round(embarked_s / nrow(titanic) * 100)
+embarked_s_percent
+
+embarked_q_percent <- round(embarked_q / nrow(titanic) * 100)
+embarked_q_percent
+
+embarked_c_percent <- round(embarked_c / nrow(titanic) * 100)
+embarked_c_percent
+
 # Vectors to be passed into matrix summarising function
   # Column names vector (Add/Remove, making sure they exit in passed sample)
 matrix_columns <- c("Age", "Fare")
