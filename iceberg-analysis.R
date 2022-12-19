@@ -103,7 +103,13 @@ fare_total
 # age-functions.R and insert into list (i.e. layers on top of basic graph))
 source("age-functions.R")
 
-age_fancyplot + list(gender_mean_age, age_plot_grid, age_plot_text)
+age_fancyplot_gender + list(gender_mean_age,
+                            age_plot_sex_grid,
+                            age_plot_gender_text)
+
+age_fancyplot_location + list(embarked_mean_age,
+                              age_plot_embarked_grid,
+                              age_plot_embarked_text)
 
 # Question 8, to take a random pop sample of age and point estimate the mean
 # and standard deviation
